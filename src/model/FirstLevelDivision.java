@@ -37,14 +37,41 @@ public class FirstLevelDivision {
     public String getDivisionName() { return division_name; }
     public String getCreateDate() { return create_date; }
     public String getCreatedBy() { return created_by; }
-    public String getLastUpdate() { return last_update; }
-    public String getLastUpdatedBy() { return last_updated_by; }
-    public int getCountryID() { return country_id; }
 
-    public void setDivisionName(String name) { division_name = name; }
-    public void setCreateDate(String date) { create_date = date; }
-    public void setCreatedBy(String author) { created_by = author; }
-    public void setLastUpdatedBy(String updateAuthor) { last_updated_by = updateAuthor; }
-    public void setCountryID (int countryID) { country_id = countryID;}
+    public String getLastUpdate() {
+        return last_update;
+    }
 
+    public String getLastUpdatedBy() {
+        return last_updated_by;
+    }
+
+    public int getCountryID() {
+        return country_id;
+    }
+
+    public void setDivisionName(String name) {
+        division_name = name;
+    }
+
+    public void setCreateDate(String date) {
+        create_date = date;
+    }
+
+    public void setCreatedBy(String author) {
+        created_by = author;
+    }
+
+    public void setLastUpdatedBy(String updateAuthor) {
+        last_updated_by = updateAuthor;
+    }
+
+    public void setCountryID(int countryID) {
+        country_id = countryID;
+    }
+
+    @Override
+    public String toString() {
+        return division_name;
+    }
 }

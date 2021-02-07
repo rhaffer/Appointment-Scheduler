@@ -1,4 +1,4 @@
-package view_controller;
+package view_controller.login_view_controller;
 
 import dao.UserDAO;
 import javafx.fxml.FXML;
@@ -8,11 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import model.User;
+import view_controller.BaseController;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-public class Register extends BaseController{
+public class Register extends BaseController {
 
     @FXML
     AnchorPane registerPane;

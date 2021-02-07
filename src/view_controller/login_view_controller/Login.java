@@ -1,10 +1,11 @@
-package view_controller;
+package view_controller.login_view_controller;
 
 import dao.UserDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import model.User;
+import view_controller.BaseController;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -56,7 +57,7 @@ public class Login extends BaseController {
         if (checkUserFields()){
             if (checkUsernamePassword()){
                 writeLoginAttempt("Successful");
-                loadNewScene(loginPane, "Navigation.fxml");
+                loadNewScene(loginPane, "/view_controller/nav_view_controller/Navigation.fxml");
                 LOGGED_IN_USER = new User(userNameField.getText(), passwordField.getText(), LocalDateTime.now().toString(),
                         null, null);
             }else{

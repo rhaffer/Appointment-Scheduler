@@ -9,7 +9,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/view_controller/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view_controller/login_view_controller/Login.fxml"));
         primaryStage.requestFocus();
         primaryStage.setTitle("Appointment Scheduler");
         primaryStage.setScene(new Scene(root));

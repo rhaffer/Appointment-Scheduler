@@ -19,14 +19,16 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public abstract class BaseController {
-    static Connection CONN = DBConnection.openConnection();
-    static Locale LOCALE = Locale.getDefault();
-    static ResourceBundle RB = ResourceBundle.getBundle("locales", Locale.getDefault());
-    static User LOGGED_IN_USER;
+    protected static User LOGGED_IN_USER;
+    protected static Connection CONN = DBConnection.openConnection();
+    protected static Locale LOCALE = Locale.getDefault();
+    protected static ResourceBundle RB = ResourceBundle.getBundle("locales", Locale.getDefault());
 
-    protected void loadNewScene(AnchorPane pane, String resource){
+    protected void loadNewScene(AnchorPane pane, String resource) {
         // Each page is recreated -- kind of annoying, but is what it is
-        if (!pane.getChildren().isEmpty()){ pane.getChildren().clear(); }
+        if (!pane.getChildren().isEmpty()) {
+            pane.getChildren().clear();
+        }
 
         try {
             // Loads the new FXML with appropriate template for each config

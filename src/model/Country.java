@@ -27,17 +27,49 @@ public class Country {
         last_update = update;
         last_updated_by = update_author;
     }
+
     // Getters and Setters for Country Class
     //  *** Country_ID and Last_Updated do not have setters ***
     public int getCountryID(){ return country_id; }
-    public String getCountryName(){ return country_name; }
-    public String getCreateDate(){ return create_date; }
-    public String getCreatedBy(){ return created_by; }
-    public String getLastUpdate() { return last_update; }
-    public String getLastUpdatedBy(){ return last_updated_by;}
 
-    public void setCountryName(String name){ country_name = name; }
-    public void setCreateDate(String date){ create_date = date; }
-    public void setCreatedBy(String author){ created_by = author; }
-    public void setLastUpdatedBy(String update_author){ last_updated_by = update_author; }
+    public String getCountryName() {
+        return country_name;
+    }
+
+    public String getCreateDate() {
+        return create_date;
+    }
+
+    public String getCreatedBy() {
+        return created_by;
+    }
+
+    public String getLastUpdate() {
+        return last_update;
+    }
+
+    public String getLastUpdatedBy() {
+        return last_updated_by;
+    }
+
+    public void setCountryName(String name) {
+        country_name = name;
+    }
+
+    public void setCreateDate(String date) {
+        create_date = date;
+    }
+
+    public void setCreatedBy(String author) {
+        created_by = author;
+    }
+
+    public void setLastUpdatedBy(String update_author) {
+        last_updated_by = update_author;
+    }
+
+    @Override
+    public String toString() {
+        return country_name;
+    }
 }

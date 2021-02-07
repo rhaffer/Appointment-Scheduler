@@ -1,5 +1,7 @@
 package dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.User;
 import util.DBQuery;
 
@@ -7,13 +9,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class UserDAO{
 
-    private final List<User> users = new ArrayList<>();
+    private final ObservableList<User> users = FXCollections.observableArrayList();
 
     public User get(Connection conn, String searchUser) throws SQLException {
             String selectStatement = "SELECT * FROM users WHERE User_Name = ?";
@@ -42,13 +42,13 @@ public class UserDAO{
         }
     }
 
-    public  List<User> getAll(Connection conn) throws SQLException {
+    public ObservableList<User> getAll(Connection conn) throws SQLException {
         String selectAllStatement = "SELECT * FROM users";
         DBQuery.setPreparedStatement(conn, selectAllStatement);
         PreparedStatement statement = DBQuery.getPreparedStatement();
         statement.execute();
         ResultSet rs = statement.getResultSet();
-        while(rs.next()){
+        while (rs.next()) {
             int userID = rs.getInt("User_ID");
             String userName = rs.getString("User_Name");
             String password = rs.getString("Password");

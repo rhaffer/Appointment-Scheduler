@@ -32,25 +32,45 @@ public class Customer {
                     String create_date, String created_by, String last_update, String last_updated_by, int division_id){
         customerID=customer_id;
         customerName=customer_name;
-        address=new_address;
-        postalCode=postal_code;
-        phoneNumber=phone_number;
-        createDate=create_date;
-        createdBy=created_by;
-        lastUpdate=last_update;
-        lastUpdatedBy=last_updated_by;
-        divisionID=division_id;
+        address = new_address;
+        postalCode = postal_code;
+        phoneNumber = phone_number;
+        createDate = create_date;
+        createdBy = created_by;
+        lastUpdate = last_update;
+        lastUpdatedBy = last_updated_by;
+        divisionID = division_id;
+    }
+
+    public Customer() {
     }
 
     // Getters and Setters for Customer Class
     //  *** CustomerID and LastUpdate do not have setters ***
 
-    public int getCustomerID(){return customerID;}
-    public String getCustomerName(){return customerName;}
-    public String getAddress(){return address;}
-    public String getPostalCode(){return postalCode;}
-    public String getPhoneNumber(){return phoneNumber;}
-    public String getCreateDate(){return createDate;}
+    public int getCustomerID() {
+        return customerID;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
     public String getCreatedBy(){return createdBy;}
     public String getLastUpdate(){return lastUpdate;}
     public String getLastUpdatedBy(){return lastUpdatedBy;}

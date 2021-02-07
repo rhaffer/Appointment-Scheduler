@@ -1,11 +1,12 @@
-package view_controller;
+package view_controller.nav_view_controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import view_controller.BaseController;
 
-public class Navigation extends BaseController{
+public class Navigation extends BaseController {
     @FXML
     AnchorPane navigationPane;
 
@@ -28,7 +29,9 @@ public class Navigation extends BaseController{
     Button logOutButton;
 
     @FXML
-    private void customersButtonClicked(){ loadNewScene(stackPane, "nav_view_controller/Customers.fxml"); }
+    private void customersButtonClicked() {
+        loadNewScene(stackPane, "cust_view_controller/Customers.fxml");
+    }
 
     @FXML
     private void appointmentsButtonClicked(){
@@ -47,7 +50,7 @@ public class Navigation extends BaseController{
 
     @FXML
     private void logOutButtonClicked(){
-        loadNewScene(navigationPane, "Login.fxml");
+        loadNewScene(navigationPane, "login_view_controller/Login.fxml");
         LOGGED_IN_USER = null;
     }
 

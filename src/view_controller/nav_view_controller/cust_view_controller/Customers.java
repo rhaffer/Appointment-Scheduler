@@ -1,4 +1,4 @@
-package view_controller.nav_view_controller;
+package view_controller.nav_view_controller.cust_view_controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
