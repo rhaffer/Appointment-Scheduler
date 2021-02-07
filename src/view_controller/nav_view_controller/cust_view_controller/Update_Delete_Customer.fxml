@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="523.0" prefWidth="635.0"
-            xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns="http://javafx.com/javafx/15.0.1"
             fx:controller="view_controller.nav_view_controller.cust_view_controller.Update_Delete_Customer">
    <VBox layoutX="201.0" layoutY="111.0" prefHeight="321.0" prefWidth="254.0">
       <HBox prefHeight="37.0" prefWidth="254.0">
@@ -124,7 +124,7 @@
             <Insets top="5.0"/>
          </HBox.margin>
       </Label>
-      <ComboBox prefHeight="27.0" prefWidth="160.0">
+      <ComboBox fx:id="customerComboBox" prefHeight="27.0" prefWidth="160.0">
          <HBox.margin>
             <Insets left="40.0"/>
          </HBox.margin>

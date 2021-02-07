@@ -1,5 +1,7 @@
 package dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.Customer;
 import util.DBQuery;
 
@@ -7,12 +9,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CustomerDAO {
 
-    private final List<Customer> customers = new ArrayList<>();
+    private final ObservableList<Customer> customers = FXCollections.observableArrayList();
 
     //Retrieve Customer from DB by Customer_Name
     public Customer get(Connection conn, String searchCustomer) throws SQLException {
@@ -47,8 +47,8 @@ public class CustomerDAO {
     }
 
     //Gets all Customers from DB
-    public List<Customer> getAll(Connection conn) throws SQLException {
-        String selectAllStatement = "SELECT * FROM users";
+    public ObservableList<Customer> getAll(Connection conn) throws SQLException {
+        String selectAllStatement = "SELECT * FROM customers";
         DBQuery.setPreparedStatement(conn, selectAllStatement);
         PreparedStatement statement = DBQuery.getPreparedStatement();
         statement.execute();

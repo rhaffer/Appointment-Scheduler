@@ -71,18 +71,57 @@ public class Customer {
     public String getCreateDate() {
         return createDate;
     }
-    public String getCreatedBy(){return createdBy;}
-    public String getLastUpdate(){return lastUpdate;}
-    public String getLastUpdatedBy(){return lastUpdatedBy;}
-    public int getDivisionID(){return divisionID;}
 
-    public void setCustomerName(String name){ customerName = name;}
-    public void setAddress(String new_address){ address = new_address;}
-    public void setPostalCode(String postal_code){ postalCode = postal_code;}
-    public void setPhoneNumber(String phone_number) { phoneNumber = phone_number;}
-    public void setCreateDate(String create_date){ createDate = create_date;}
-    public void setCreatedBy(String created_by){createdBy = created_by;}
-    public void setLastUpdatedBy(String last_updated_by){ lastUpdatedBy = last_updated_by;}
-    public void setDivisionID(int division_id){ divisionID = division_id;}
+    public String getCreatedBy() {
+        return createdBy;
+    }
 
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
+    }
+
+    public int getDivisionID() {
+        return divisionID;
+    }
+
+    public void setCustomerName(String name) {
+        customerName = name;
+    }
+
+    public void setAddress(String new_address) {
+        address = new_address;
+    }
+
+    public void setPostalCode(String postal_code) {
+        postalCode = postal_code;
+    }
+
+    public void setPhoneNumber(String phone_number) {
+        phoneNumber = phone_number;
+    }
+
+    public void setCreateDate(String create_date) {
+        createDate = create_date;
+    }
+
+    public void setCreatedBy(String created_by) {
+        createdBy = created_by;
+    }
+
+    public void setLastUpdatedBy(String last_updated_by) {
+        lastUpdatedBy = last_updated_by;
+    }
+
+    public void setDivisionID(int division_id) {
+        divisionID = division_id;
+    }
+
+    @Override
+    public String toString() {
+        return customerName;
+    }
 }
