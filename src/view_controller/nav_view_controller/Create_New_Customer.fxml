@@ -1,9 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="523.0" prefWidth="635.0" xmlns="http://javafx.com/javafx/15.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.nav_view_controller.Create_New_Customer">
-   <Label layoutX="238.0" layoutY="253.0" text="CREATE A NEW CUSTOMER"/>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="523.0" prefWidth="635.0"
+            xmlns="http://javafx.com/javafx/15.0.1"
+            fx:controller="view_controller.nav_view_controller.Create_New_Customer">
+   <VBox layoutX="191.0" layoutY="101.0" prefHeight="321.0" prefWidth="254.0">
+      <HBox prefHeight="37.0" prefWidth="254.0">
+         <Label text="Name"/>
+         <TextField fx:id="custNameTF">
+            <HBox.margin>
+               <Insets left="60.0"/>
+            </HBox.margin>
+         </TextField>
+      </HBox>
+      <HBox layoutX="10.0" layoutY="10.0" prefHeight="37.0" prefWidth="226.0">
+         <VBox.margin>
+            <Insets top="20.0"/>
+         </VBox.margin>
+         <Label text="Street"/>
+         <TextField fx:id="custAddressTF">
+            <HBox.margin>
+               <Insets left="60.0"/>
+            </HBox.margin>
+         </TextField>
+      </HBox>
+      <HBox layoutX="10.0" layoutY="47.0" prefHeight="37.0" prefWidth="226.0">
+         <VBox.margin>
+            <Insets top="20.0"/>
+         </VBox.margin>
+         <Label text="Postal Code"/>
+         <TextField fx:id="custPostalTF">
+            <HBox.margin>
+               <Insets left="28.0"/>
+            </HBox.margin>
+         </TextField>
+      </HBox>
+      <HBox layoutX="10.0" layoutY="84.0" prefHeight="37.0" prefWidth="226.0">
+         <VBox.margin>
+            <Insets top="20.0"/>
+         </VBox.margin>
+         <Label text="Country"/>
+         <ComboBox fx:id="custCountryCB" prefWidth="150.0">
+            <HBox.margin>
+               <Insets left="60.0"/>
+            </HBox.margin>
+         </ComboBox>
+      </HBox>
+      <HBox layoutX="10.0" layoutY="84.0" prefHeight="37.0" prefWidth="226.0">
+         <VBox.margin>
+            <Insets top="20.0"/>
+         </VBox.margin>
+         <Label text="State/Province"/>
+         <ComboBox fx:id="custFldCB" prefWidth="150.0">
+            <HBox.margin>
+               <Insets left="25.0"/>
+            </HBox.margin>
+         </ComboBox>
+      </HBox>
+      <Button fx:id="custSubmitButton" mnemonicParsing="false" text="Submit">
+         <VBox.margin>
+            <Insets left="100.0" top="20.0"/>
+         </VBox.margin>
+      </Button>
+   </VBox>
 </AnchorPane>

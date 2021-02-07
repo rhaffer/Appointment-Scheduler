@@ -3,7 +3,10 @@ package dao;
 import model.User;
 import util.DBQuery;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -75,12 +78,14 @@ public class UserDAO{
         }
     }
 
+    //TODO Make update functionality
     public void update(User user, String[] params){
         user.setUserName(Objects.requireNonNull(params[0], "Name cannot be null"));
         user.setPassword(Objects.requireNonNull(params[1], "Password cannot be null"));
         users.add(user);
     }
 
+    // TODO Make delete functionality
     public void delete(User user){
         users.remove(user);
     }
