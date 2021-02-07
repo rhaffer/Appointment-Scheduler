@@ -1,0 +1,37 @@
+
+Connection conn = DBConnection.openConnection(); // Connects to DB
+    DBQuery.setStatement(conn); // Create Statement Object
+    Statement statement = DBQuery.getStatement(); // Get Statement reference
+
+ /* Raw SQL Insert Statement
+    String insertStatement = "INSERT INTO countries(Country, Create_Date, Created_By, Last_Updated_By) " +
+            "VALUES('US', '2021-01-23 00:00:00', 'admin', 'admin')";
+
+    // Variable Insert
+    String countryName = "Canada";
+    String create_date = "2021-01-23 00:00:00";
+    String created_by = "admin";
+    String last_update_by = "admin";
+    String insertStatement = "INSERT INTO countries(Country, Create_Date, Created_By, Last_Updated_By)" +
+            "VALUES(" +
+            "'" + countryName + "'," +
+            "'" + create_date + "'," +
+            "'" + created_by + "'," +
+            "'" + last_update_by + "'" + ")";
+
+    // Raw Update Statement
+    String updateStatement = "UPDATE countries SET Country = 'Canada' WHERE Country = 'Japan' AND Country_ID = 38'";
+
+    // Raw Delete Statement
+    String deleteStatement = "DELETE FROM countries WHERE Created_By = 'admin'";
+
+    // Execute SQL Statement
+    statement.execute(updateStatement);
+*/
+
+    //Confirm rows affected
+    if (statement.getUpdateCount() > 0){
+        System.out.println(statement.getUpdateCount() + " rows affected.");
+    }else{
+        System.out.println("No change.");
+    }

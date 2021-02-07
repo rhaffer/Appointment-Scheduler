@@ -1,0 +1,95 @@
+
+
+user attempted to login at 2021-02-06T19:31:08.833549
+Login Successful
+
+user attempted to login at 2021-02-06T19:31:51.215185
+Login Successful
+
+user attempted to login at 2021-02-06T20:04:15.106235
+Login Successful
+
+user attempted to login at 2021-02-06T20:17:23.782631
+Login Successful
+
+user attempted to login at 2021-02-06T20:18:29.602488
+Login Successful
+
+user attempted to login at 2021-02-06T20:19:26.775109
+Login Successful
+
+user attempted to login at 2021-02-06T20:20:56.664816
+Login Successful
+
+user attempted to login at 2021-02-06T20:21:42.445164
+Login Successful
+
+user attempted to login at 2021-02-06T20:22:41.946021
+Login Successful
+
+user attempted to login at 2021-02-06T20:23:19.889490
+Login Successful
+
+user attempted to login at 2021-02-06T20:24:16.194936
+Login Successful
+
+user attempted to login at 2021-02-06T20:28:26.505186
+Login Successful
+
+user attempted to login at 2021-02-06T20:30:43.971743
+Login Successful
+
+user attempted to login at 2021-02-06T20:31:39.885015
+Login Successful
+
+user attempted to login at 2021-02-06T20:32:31.323505
+Login Successful
+
+user attempted to login at 2021-02-06T20:37:16.136835
+Login Successful
+
+user attempted to login at 2021-02-06T20:38:10.149386
+Login Successful
+
+user attempted to login at 2021-02-06T20:40:53.100701
+Login Successful
+
+user attempted to login at 2021-02-06T20:41:51.588571
+Login Successful
+
+user attempted to login at 2021-02-06T20:42:09.740081
+Login Successful
+
+user attempted to login at 2021-02-06T20:43:00.558984
+Login Successful
+
+user attempted to login at 2021-02-06T20:44:48.813805
+Login Successful
+
+user attempted to login at 2021-02-06T20:45:22.692697
+Login Successful
+
+user attempted to login at 2021-02-06T20:46:04.065693
+Login Successful
+
+user attempted to login at 2021-02-06T20:46:37.985431
+Login Successful
+
+user attempted to login at 2021-02-06T20:52:39.118076
+Login Successful
+
+user attempted to login at 2021-02-06T20:53:26.754398
+Login Successful
+
+user attempted to login at 2021-02-06T20:58:34.299293
+Login Successful
+
+user attempted to login at 2021-02-06T20:59:08.689883
+Login Successful
+
+user attempted to login at 2021-02-06T21:05:41.187693
+Login Successful
+
+user attempted to login at 2021-02-06T21:07:05.118946
+Login Successful
+
