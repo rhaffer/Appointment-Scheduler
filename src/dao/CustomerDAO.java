@@ -101,8 +101,49 @@ public class CustomerDAO {
         customers.add(customer);
     }
 
-    // TODO Make delete functionality
-    public void delete(Customer customer) {
-        customers.remove(customer);
+    public Boolean delete(Connection conn, int customerID) throws SQLException {
+        String delStatement = "DELETE FROM customers WHERE Customer_ID = ?";
+        DBQuery.setPreparedStatement(conn, delStatement);
+        PreparedStatement statement = DBQuery.getPreparedStatement();
+        statement.setInt(1, customerID);
+        try{
+            statement.execute();
+            return true;
+        }catch (SQLException ex){
+            System.out.println("SQL Exception: " + ex.getMessage());
+            return false;
+        }
+    }
+
+    public ObservableList<String> getCustomerDivisionCountry(Connection conn, Customer customer) throws SQLException {
+        ObservableList<String> customerInfo = FXCollections.observableArrayList();
+        String sqlStatement = "SELECT customers.Customer_ID, customers.Customer_Name, customers.Address, " +
+                "customers.Postal_Code, customers.Phone, first_level_divisions.Division, countries.Country " +
+                "FROM first_level_divisions " +
+                "INNER JOIN customers ON (customers.Division_ID=first_level_divisions.Division_ID) " +
+                "INNER JOIN countries ON (countries.Country_ID=first_level_divisions.COUNTRY_ID) " +
+                "WHERE customers.Customer_ID = ?";
+        DBQuery.setPreparedStatement(conn, sqlStatement);
+        PreparedStatement statement = DBQuery.getPreparedStatement();
+        statement.setInt(1, customer.getCustomerID());
+        try{
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+            if(rs.next()){
+                String customerID = String.valueOf(rs.getInt("Customer_ID"));
+                String customerName = rs.getString("Customer_Name");
+                String customerAddress = rs.getString("Address");
+                String customerPostalCode = rs.getString("Postal_Code");
+                String customerPhone = rs.getString("Phone");
+                String divison = rs.getString("Division");
+                String country = rs.getString("Country");
+                customerInfo.addAll(customerID, customerName, customerAddress, customerPostalCode, customerPhone, divison, country);
+            }
+        }
+        catch (SQLException ex){
+            System.out.println("SQL Exception: " + ex.getMessage());
+
+        }
+        return customerInfo;
     }
 }

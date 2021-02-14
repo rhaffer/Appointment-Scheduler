@@ -26,9 +26,6 @@ public class Navigation extends BaseController {
     Button reportButton;
 
     @FXML
-    Button logOutButton;
-
-    @FXML
     private void customersButtonClicked() {
         loadNewScene(stackPane, "cust_view_controller/Customers.fxml");
     }
@@ -46,12 +43,6 @@ public class Navigation extends BaseController {
     @FXML
     private void reportButtonClicked(){
         System.out.println("Report button clicked.");
-    }
-
-    @FXML
-    private void logOutButtonClicked(){
-        loadNewScene(navigationPane, "login_view_controller/Login.fxml");
-        LOGGED_IN_USER = null;
     }
 
 }

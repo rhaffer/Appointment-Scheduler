@@ -78,14 +78,13 @@ public class UserDAO{
         }
     }
 
-    //TODO Make update functionality
     public void update(User user, String[] params){
         user.setUserName(Objects.requireNonNull(params[0], "Name cannot be null"));
         user.setPassword(Objects.requireNonNull(params[1], "Password cannot be null"));
         users.add(user);
     }
 
-    // TODO Make delete functionality
+
     public void delete(User user){
         users.remove(user);
     }
