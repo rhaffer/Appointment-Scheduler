@@ -103,7 +103,7 @@
             <Insets top="20.0" />
          </VBox.margin>
          <Button fx:id="deleteButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteCustomer" text="Delete" />
-         <Button fx:id="updateButton" mnemonicParsing="false" text="Update">
+         <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateCustomer" text="Update">
             <HBox.margin>
                <Insets left="143.0" />
             </HBox.margin>

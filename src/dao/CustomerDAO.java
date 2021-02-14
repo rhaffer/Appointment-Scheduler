@@ -3,12 +3,15 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Customer;
+import model.FirstLevelDivision;
+import model.User;
 import util.DBQuery;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 public class CustomerDAO {
 
@@ -96,9 +99,28 @@ public class CustomerDAO {
         }
     }
 
-    // TODO Make update functionality
-    public void update(Customer customer, String[] params) {
-        customers.add(customer);
+    public Boolean update(Connection conn, Customer customer, FirstLevelDivision division, User user) throws SQLException {
+        String updateStatement = "UPDATE " +
+                "customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update = ?, " +
+                "Last_Updated_By = ?, Division_ID = ?" +
+                "WHERE customer_ID = ?";
+        DBQuery.setPreparedStatement(conn, updateStatement);
+        PreparedStatement statement = DBQuery.getPreparedStatement();
+        statement.setString(1, customer.getCustomerName());
+        statement.setString(2, customer.getAddress());
+        statement.setString(3, customer.getPostalCode());
+        statement.setString(4, customer.getPhoneNumber());
+        statement.setString(5, LocalDateTime.now().toString());
+        statement.setString(6, user.getUserName());
+        statement.setString(7, String.valueOf(division.getDivisionID()));
+        statement.setInt(8, customer.getCustomerID());
+        try{
+            statement.execute();
+            return true;
+        }catch (SQLException ex){
+            System.out.println("SQL Exception: " + ex.getMessage());
+            return false;
+        }
     }
 
     public Boolean delete(Connection conn, int customerID) throws SQLException {

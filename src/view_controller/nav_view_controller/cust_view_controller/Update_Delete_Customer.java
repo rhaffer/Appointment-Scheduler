@@ -103,6 +103,21 @@ public class Update_Delete_Customer extends BaseController {
         custFLDCB.setValue(populateDivisionCB(customerInfo.get(5), custCountryCB.getValue().getCountryID()));
     }
 
+    @FXML
+    private void updateCustomer() throws SQLException{
+        CustomerDAO dao = new CustomerDAO();
+        if(dao.update(CONN, customerComboBox.getValue(), custFLDCB.getValue(), LOGGED_IN_USER)){
+            Alert newAlert = new Alert(Alert.AlertType.INFORMATION);
+            newAlert.setHeaderText("Customer Updated");
+            newAlert.setContentText("Customer updated successfully");
+            newAlert.show();
+        }else{
+            Alert newAlert = new Alert(Alert.AlertType.ERROR);
+            newAlert.setHeaderText("Customer Not Updated");
+            newAlert.setContentText("Customer not updated!");
+            newAlert.show();
+        }
+    }
 
     @FXML
     private void deleteCustomer() throws SQLException {
