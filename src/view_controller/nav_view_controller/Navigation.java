@@ -31,9 +31,7 @@ public class Navigation extends BaseController {
     }
 
     @FXML
-    private void appointmentsButtonClicked(){
-        System.out.println("Appointments clicked.");
-    }
+    private void appointmentsButtonClicked(){ loadNewScene(stackPane, "appt_view_controller/Appointments.fxml");}
 
     @FXML
     private void calendarButtonClicked(){

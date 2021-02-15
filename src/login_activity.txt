@@ -258,3 +258,9 @@ Login Successful
 admin attempted to login at 2021-02-14T12:21:18.211658300
 Login Successful
 
+user attempted to login at 2021-02-14T12:56:38.360258700
+Login Successful
+
+user attempted to login at 2021-02-14T12:59:00.361511
+Login Successful
+
