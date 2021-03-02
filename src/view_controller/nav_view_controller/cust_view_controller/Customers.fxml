@@ -5,8 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0"
-      prefWidth="635.0" styleClass="fx" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="600.0" prefWidth="640.0" styleClass="fx" xmlns="http://javafx.com/javafx/15.0.1"
       fx:controller="view_controller.nav_view_controller.cust_view_controller.Customers">
    <HBox prefHeight="63.0" prefWidth="635.0">
       <Label fx:id="customerLabel" text="Customers">
@@ -29,5 +29,5 @@
          </HBox.margin>
       </Button>
    </HBox>
-   <StackPane fx:id="customerStackPane" layoutY="65.0" prefHeight="523.0" prefWidth="635.0"/>
+   <StackPane fx:id="customerStackPane" layoutY="70.0" prefHeight="530.0" prefWidth="640.0"/>
 </Pane>

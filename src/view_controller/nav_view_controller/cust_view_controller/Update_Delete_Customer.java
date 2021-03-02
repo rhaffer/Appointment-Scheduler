@@ -3,18 +3,19 @@ package view_controller.nav_view_controller.cust_view_controller;
 import dao.CountryDAO;
 import dao.CustomerDAO;
 import dao.FLDDAO;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.MapValueFactory;
 import model.Country;
 import model.Customer;
 import model.FirstLevelDivision;
 import view_controller.BaseController;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Update_Delete_Customer extends BaseController {
     @FXML
@@ -42,6 +43,24 @@ public class Update_Delete_Customer extends BaseController {
     ComboBox<FirstLevelDivision> custFLDCB;
 
     @FXML
+    TableView<Map<String, Object>> updateCustomerTable;
+
+    @FXML
+    TableColumn<Map, String> nameColumn;
+
+    @FXML
+    TableColumn<Map, String> phoneColumn;
+
+    @FXML
+    TableColumn<Map, String> postalColumn;
+
+    @FXML
+    TableColumn<Map, String> countryColumn;
+
+    @FXML
+    TableColumn<Map, String> stateColumn;
+
+    @FXML
     Button deleteButton;
 
     @FXML
@@ -53,13 +72,32 @@ public class Update_Delete_Customer extends BaseController {
         customerComboBox.setItems(customers);
     }
 
+    private void setCustomerTableView() throws SQLException {
+        ObservableList<Map<String, Object>> allCustomers = FXCollections.observableArrayList();
+        CustomerDAO dao = new CustomerDAO();
+
+        ObservableList<Customer> customers = dao.getAll(CONN);
+        for (Customer customer : customers) {
+            ObservableList<String> customerInfo = dao.getCustomerDivisionCountry(CONN, customer);
+            Map<String, Object> item = new HashMap<>();
+            item.put("name_column", customerInfo.get(1));
+            item.put("phone_column", customerInfo.get(4));
+            item.put("postal_column", customerInfo.get(3));
+            item.put("country_column", customerInfo.get(6));
+            item.put("state_column", customerInfo.get(5));
+            allCustomers.add(item);
+        }
+        updateCustomerTable.setItems(allCustomers);
+
+    }
+
     private Country populateCountryCB(String countryName) throws SQLException {
         Country result = null;
         CountryDAO countryDAO = new CountryDAO();
         ObservableList<Country> countries = countryDAO.getAll(CONN);
         custCountryCB.setItems(countries);
-        for (Country country: countries){
-            if (country.getCountryName().equals(countryName)){
+        for (Country country : countries) {
+            if (country.getCountryName().equals(countryName)) {
                 result = country;
             }
         }
@@ -91,6 +129,8 @@ public class Update_Delete_Customer extends BaseController {
     
     @FXML
     private void populateUpdateFields() throws SQLException {
+        // This causes a null pointer exception to be caught when deleting a Customer
+        // due to it being an #onAction event. Does not affect overall performance of application
         Customer updateCustomer = customerComboBox.getValue();
         CustomerDAO dao = new CustomerDAO();
         ObservableList<String> customerInfo = dao.getCustomerDivisionCountry(CONN, updateCustomer);
@@ -117,6 +157,7 @@ public class Update_Delete_Customer extends BaseController {
             newAlert.setContentText("Customer not updated!");
             newAlert.show();
         }
+        setCustomerTableView();
     }
 
     @FXML
@@ -124,8 +165,8 @@ public class Update_Delete_Customer extends BaseController {
         CustomerDAO dao = new CustomerDAO();
         if(dao.delete(CONN, Integer.parseInt(custIDTF.getText()))){
             setCustomerComboBox();
+            setCustomerTableView();
             clearFields();
-            customerComboBox.setValue(null);
             Alert newAlert = new Alert(Alert.AlertType.INFORMATION);
             newAlert.setHeaderText("Customer Deleted");
             newAlert.setContentText("Customer deleted successfully!");
@@ -140,6 +181,12 @@ public class Update_Delete_Customer extends BaseController {
 
     @FXML
     private void initialize() throws SQLException {
+        nameColumn.setCellValueFactory(new MapValueFactory<>("name_column"));
+        phoneColumn.setCellValueFactory(new MapValueFactory<>("phone_column"));
+        postalColumn.setCellValueFactory(new MapValueFactory<>("postal_column"));
+        countryColumn.setCellValueFactory(new MapValueFactory<>("country_column"));
+        stateColumn.setCellValueFactory(new MapValueFactory<>("state_column"));
         setCustomerComboBox();
+        setCustomerTableView();
     }
 }

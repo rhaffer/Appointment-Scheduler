@@ -3,10 +3,10 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="523.0" prefWidth="635.0"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="530.0" prefWidth="640.0"
             xmlns="http://javafx.com/javafx/15.0.1"
             fx:controller="view_controller.nav_view_controller.cust_view_controller.Create_New_Customer">
-   <VBox layoutX="191.0" layoutY="101.0" prefHeight="321.0" prefWidth="254.0">
+   <VBox layoutX="193.0" layoutY="105.0" prefHeight="321.0" prefWidth="254.0">
       <HBox prefHeight="37.0" prefWidth="254.0">
          <Label text="Name">
             <HBox.margin>
