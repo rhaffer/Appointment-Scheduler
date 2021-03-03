@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="530.0" prefWidth="640.0"
-            xmlns="http://javafx.com/javafx/15.0.1"
-            fx:controller="view_controller.nav_view_controller.cust_view_controller.Update_Delete_Customer">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="530.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.nav_view_controller.cust_view_controller.Update_Delete_Customer">
    <VBox layoutX="14.0" layoutY="101.0" prefHeight="359.0" prefWidth="254.0">
       <HBox prefHeight="37.0" prefWidth="254.0">
          <Label text="Name">
             <HBox.margin>
-               <Insets top="5.0"/>
+               <Insets top="5.0" />
             </HBox.margin>
          </Label>
          <TextField fx:id="custNameTF" prefHeight="27.0" prefWidth="100.0">
             <HBox.margin>
-               <Insets left="60.0"/>
+               <Insets left="60.0" />
             </HBox.margin>
          </TextField>
       </HBox>
@@ -30,7 +36,7 @@
          </Label>
          <TextField fx:id="custPhoneTF" prefHeight="27.0" prefWidth="100.0">
             <HBox.margin>
-               <Insets left="58.0"/>
+               <Insets left="58.0" />
             </HBox.margin>
          </TextField>
       </HBox>
@@ -45,7 +51,7 @@
          </Label>
          <TextField fx:id="custAddressTF" prefHeight="27.0" prefWidth="100.0">
             <HBox.margin>
-               <Insets left="60.0"/>
+               <Insets left="60.0" />
             </HBox.margin>
          </TextField>
       </HBox>
@@ -60,7 +66,7 @@
          </Label>
          <TextField fx:id="custPostalTF" prefHeight="27.0" prefWidth="100.0">
             <HBox.margin>
-               <Insets left="28.0"/>
+               <Insets left="28.0" />
             </HBox.margin>
          </TextField>
       </HBox>
@@ -75,7 +81,7 @@
          </Label>
          <ComboBox fx:id="custCountryCB" prefHeight="27.0" prefWidth="100.0">
             <HBox.margin>
-               <Insets left="50.0"/>
+               <Insets left="50.0" />
             </HBox.margin>
          </ComboBox>
       </HBox>
@@ -90,7 +96,7 @@
          </Label>
          <ComboBox fx:id="custFLDCB" prefHeight="27.0" prefWidth="100.0">
             <HBox.margin>
-               <Insets left="15.0"/>
+               <Insets left="15.0" />
             </HBox.margin>
          </ComboBox>
       </HBox>
@@ -101,7 +107,7 @@
          <Button fx:id="deleteButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteCustomer" text="Delete" />
          <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateCustomer" text="Update">
             <HBox.margin>
-               <Insets left="85.0"/>
+               <Insets left="85.0" />
             </HBox.margin>
          </Button>
       </HBox>
@@ -114,29 +120,29 @@
       </Label>
       <TextField fx:id="custIDTF" disable="true" editable="false" prefHeight="27.0" prefWidth="100.0">
          <HBox.margin>
-            <Insets left="25.0"/>
+            <Insets left="25.0" />
          </HBox.margin>
       </TextField>
    </HBox>
    <HBox layoutX="14.0" layoutY="14.0" prefHeight="37.0" prefWidth="254.0">
       <Label text="Customer">
          <HBox.margin>
-            <Insets top="5.0"/>
+            <Insets top="5.0" />
          </HBox.margin>
       </Label>
       <ComboBox fx:id="customerComboBox" onAction="#populateUpdateFields" prefHeight="27.0" prefWidth="100.0">
          <HBox.margin>
-            <Insets left="40.0"/>
+            <Insets left="40.0" />
          </HBox.margin>
       </ComboBox>
    </HBox>
-   <TableView fx:id="updateCustomerTable" layoutX="220.0" layoutY="14.0" prefHeight="443.0" prefWidth="416.0">
+   <TableView fx:id="updateCustomerTable" layoutX="227.0" layoutY="14.0" prefHeight="443.0" prefWidth="399.0">
       <columns>
-         <TableColumn fx:id="nameColumn" prefWidth="66.0" text="Name"/>
-         <TableColumn fx:id="phoneColumn" prefWidth="67.0" text="Phone"/>
-         <TableColumn fx:id="postalColumn" prefWidth="75.0" text="Postal Code"/>
-         <TableColumn fx:id="countryColumn" prefWidth="93.0" text="Country"/>
-         <TableColumn fx:id="stateColumn" prefWidth="116.0" text="State/Province"/>
+         <TableColumn fx:id="nameColumn" prefWidth="66.0" text="Name" />
+         <TableColumn fx:id="phoneColumn" prefWidth="73.0" text="Phone" />
+         <TableColumn fx:id="postalColumn" text="Postal Code" />
+         <TableColumn fx:id="countryColumn" prefWidth="82.0" text="Country" />
+         <TableColumn fx:id="stateColumn" prefWidth="97.0" text="State/Province" />
       </columns>
    </TableView>
 </AnchorPane>

@@ -16,6 +16,49 @@ public class Appointment {
     private int user_id; // FK INT(10)
     private int contact_id; // FK INT(10)
 
+    // Constructor to create object from non-populating fields
+    // Ex: Sending an insert to DB
+    public Appointment(String new_title, String new_description, String new_location, String new_type,
+                       String new_start, String new_end, String new_create_date, String new_created_by,
+                       String new_last_update, String new_last_updated_by, int new_customer_id, int new_user_id,
+                       int new_contact_id){
+        title = new_title;
+        description = new_description;
+        location = new_location;
+        type = new_type;
+        start = new_start;
+        end = new_end;
+        create_date = new_create_date;
+        created_by = new_created_by;
+        last_update = new_last_update;
+        last_updated_by = new_last_updated_by;
+        customer_id = new_customer_id;
+        user_id = new_user_id;
+        contact_id = new_contact_id;
+    }
+
+    // Constructor to create object from all fields
+    // Ex: Retrieving data from DB
+    public Appointment(int new_appointment_id, String new_title, String new_description, String new_location, String new_type,
+                       String new_start, String new_end, String new_create_date, String new_created_by,
+                       String new_last_update, String new_last_updated_by, int new_customer_id, int new_user_id,
+                       int new_contact_id){
+        appointment_id = new_appointment_id;
+        title = new_title;
+        description = new_description;
+        location = new_location;
+        type = new_type;
+        start = new_start;
+        end = new_end;
+        create_date = new_create_date;
+        created_by = new_created_by;
+        last_update = new_last_update;
+        last_updated_by = new_last_updated_by;
+        customer_id = new_customer_id;
+        user_id = new_user_id;
+        contact_id = new_contact_id;
+    }
+
     // Getters
     private int getAppointmentID() { return appointment_id; }
     private String getTitle() { return title;}
