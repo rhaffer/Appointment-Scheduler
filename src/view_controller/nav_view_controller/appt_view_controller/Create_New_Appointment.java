@@ -20,7 +20,6 @@ public class Create_New_Appointment extends BaseController {
     int BUSINESS_OPEN = 8;
     int BUSINESS_CLOSED = 22;
 
-
     @FXML
     ComboBox<Customer> customerComboBox;
 

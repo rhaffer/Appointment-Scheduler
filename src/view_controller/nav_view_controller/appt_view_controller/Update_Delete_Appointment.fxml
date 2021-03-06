@@ -3,6 +3,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="530.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.nav_view_controller.appt_view_controller.UpdateDeleteAppointment">
+<AnchorPane prefHeight="530.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.nav_view_controller.appt_view_controller.Update_Delete_Appointment">
 
 </AnchorPane>
