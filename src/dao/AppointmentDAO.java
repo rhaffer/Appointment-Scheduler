@@ -14,6 +14,20 @@ import java.time.LocalDateTime;
 public class AppointmentDAO {
     private final ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
+    public ObservableList<LocalDateTime> getStartTimes(Connection conn) throws SQLException{
+        ObservableList<LocalDateTime> startTimes = FXCollections.observableArrayList();
+        String selectStatement = "SELECT Start FROM appointments";
+        DBQuery.setPreparedStatement(conn, selectStatement);
+        PreparedStatement statement = DBQuery.getPreparedStatement();
+        statement.execute();
+        ResultSet rs = statement.getResultSet();
+        while (rs.next()){
+            LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
+            startTimes.add(start);
+        }
+        return startTimes;
+    }
+
     public ObservableList<Appointment> getAll(Connection conn) throws SQLException{
         String selectAllStatement = "SELECT * FROM appointments";
         DBQuery.setPreparedStatement(conn, selectAllStatement);

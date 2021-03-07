@@ -57,7 +57,6 @@ public class Create_New_Appointment extends BaseController {
     @FXML
     private void initialize() throws SQLException {
         populateCustomerComboBox();
-        populateStartTimeBox();
     }
 
     private void populateCustomerComboBox() throws SQLException {
@@ -75,7 +74,9 @@ public class Create_New_Appointment extends BaseController {
         return estZDT.withZoneSameInstant(localZoneId);
     }
 
-    private void populateStartTimeBox(){
+    private void populateStartTimeBox() throws SQLException {
+        AppointmentDAO dao = new AppointmentDAO();
+        ObservableList<LocalDateTime> startTimes = dao.getStartTimes(CONN);
         //Only gives available appointment times for business open hours
         LocalDate currentDate = LocalDate.now();
         LocalTime startTime = LocalTime.of(BUSINESS_OPEN, 0);
@@ -92,10 +93,12 @@ public class Create_New_Appointment extends BaseController {
         ZonedDateTime estEndDateTime = convertEstToLocalTime(endDateTime);
         LocalTime end = estEndDateTime.toLocalTime();
 
-        while(start.isBefore(end.plusSeconds(1))){
-            startComboBox.getItems().add(start);
+        while (start.isBefore(end.plusSeconds(1))) {
+            //If the Start time selected is not within the DB, then add to Combo Box
+            if (!startTimes.contains(LocalDateTime.of(dateDatePicker.getValue(), start))) {
+                startComboBox.getItems().add(start);
+            }
             start = start.plusMinutes(APPOINTMENT_LENGTH);
-            //TODO check DB to see if times overlap -- don't allow those times in
         }
     }
 
@@ -131,11 +134,25 @@ public class Create_New_Appointment extends BaseController {
         return contactDAO.get(CONN, apptContact).getContactID();
     }
 
+    private void disableWeekends(){
+        if((dateDatePicker.getValue().getDayOfWeek().equals(DayOfWeek.SUNDAY)
+                || dateDatePicker.getValue().getDayOfWeek().equals(DayOfWeek.SATURDAY))){
+            dateDatePicker.getEditor().clear();
+            Alert newAlert = new Alert(Alert.AlertType.ERROR);
+            newAlert.setHeaderText("Cannot schedule on Weekends");
+            newAlert.setContentText("Please choose a day not on the weekend.");
+            newAlert.show();
+        }
+    }
+
+    @FXML
+    private void datePickerHandler() throws SQLException {
+        disableWeekends();
+        populateStartTimeBox();
+    }
     @FXML
     private void createAppointment() throws SQLException {
-        //#TODO Add in exception handling for
-        // 1. Weekends
-        // 2. Overlapping
+        //Saves Contact Information to contacts table
         saveContact();
 
         // Prepping data to put into Appointment class
@@ -170,5 +187,7 @@ public class Create_New_Appointment extends BaseController {
             saveAlert.setContentText("Error creating appointment!");
             saveAlert.show();
         }
+        populateStartTimeBox();
+        populateEndTimeBox();
     }
 }

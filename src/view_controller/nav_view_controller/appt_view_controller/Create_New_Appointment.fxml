@@ -141,7 +141,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <DatePicker fx:id="dateDatePicker" prefWidth="100.0">
+                  <DatePicker fx:id="dateDatePicker" onAction="#datePickerHandler" prefWidth="100.0">
                      <HBox.margin>
                         <Insets left="70.0" />
                      </HBox.margin>
