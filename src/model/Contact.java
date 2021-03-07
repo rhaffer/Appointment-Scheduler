@@ -5,12 +5,23 @@ public class Contact {
     private String contact_name; // VARCHAR(50)
     private String email; // VARCHAR(50)
 
+    public Contact(int contactID, String contactName, String contactEmail) {
+        contact_id = contactID;
+        contact_name = contactName;
+        email = contactEmail;
+    }
+
+    public Contact(String contactName, String contact_email) {
+        contact_name = contactName;
+        email = contact_email;
+    }
+
     // Getters
-    private int getContactID(){return contact_id;}
-    private String getContactName(){ return contact_name;}
-    private String getEmail(){ return email;}
+    public int getContactID(){return contact_id;}
+    public String getContactName(){ return contact_name;}
+    public String getEmail(){ return email;}
     // Setters
-    private void setContactID(int newID){ contact_id = newID;}
-    private void setContactName(String name){ contact_name = name;}
-    private void setEmail(String newEmail){ email = newEmail;}
+    public void setContactID(int newID){ contact_id = newID;}
+    public void setContactName(String name){ contact_name = name;}
+    public void setEmail(String newEmail){ email = newEmail;}
 }

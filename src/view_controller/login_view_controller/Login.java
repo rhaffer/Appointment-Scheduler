@@ -58,8 +58,9 @@ public class Login extends BaseController {
             if (checkUsernamePassword()){
                 writeLoginAttempt("Successful");
                 loadNewScene(loginPane, "/view_controller/nav_view_controller/Navigation.fxml");
-                LOGGED_IN_USER = new User(userNameField.getText(), passwordField.getText(), LocalDateTime.now().toString(),
-                        null, null);
+                UserDAO dao = new UserDAO();
+                LOGGED_IN_USER = dao.get(CONN, userNameField.getText());
+
             }else{
                 writeLoginAttempt("Unsuccessful");
                 Alert newAlert = new Alert(Alert.AlertType.ERROR);

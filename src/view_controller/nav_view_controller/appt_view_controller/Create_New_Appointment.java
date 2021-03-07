@@ -1,12 +1,13 @@
 package view_controller.nav_view_controller.appt_view_controller;
 
+import dao.AppointmentDAO;
+import dao.ContactDAO;
 import dao.CustomerDAO;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import model.Appointment;
+import model.Contact;
 import model.Customer;
 import view_controller.BaseController;
 
@@ -94,17 +95,78 @@ public class Create_New_Appointment extends BaseController {
         while(start.isBefore(end.plusSeconds(1))){
             startComboBox.getItems().add(start);
             start = start.plusMinutes(APPOINTMENT_LENGTH);
-            //TODO check DB to see if times overlap
+            //TODO check DB to see if times overlap -- don't allow those times in
         }
     }
 
+    @FXML
     private void populateEndTimeBox(){
-        //TODO have this populate once start time is selected and then add all the conversions
-        LocalTime start = startComboBox.getValue();
-        LocalTime end = LocalTime.of(12, 0);
+        //Start time is already converted from populateStartTimeBox
+        LocalDate currentDate = LocalDate.now();
+        LocalTime start = startComboBox.getValue().plusMinutes(APPOINTMENT_LENGTH);
+
+        //Convert and populate End Time Box -- same as populateStartTimeBox
+        LocalTime endTime = LocalTime.of(BUSINESS_CLOSED, 0);
+        LocalDateTime endDateTime = LocalDateTime.of(currentDate, endTime);
+        ZonedDateTime estEndDateTime = convertEstToLocalTime(endDateTime);
+        LocalTime end = estEndDateTime.toLocalTime();
+
         while(start.isBefore(end.plusSeconds(1))){
             endComboBox.getItems().add(start);
             start = start.plusMinutes(APPOINTMENT_LENGTH);
+        }
+    }
+
+    private void saveContact() throws SQLException {
+        ContactDAO contactDAO = new ContactDAO();
+        Contact apptContact = new Contact(customerComboBox.getValue().getCustomerName(), emailTextField.getText());
+        if (contactDAO.get(CONN, apptContact) == null){
+            contactDAO.save(CONN, apptContact);
+            System.out.println("Contact saved!");
+        }
+    }
+
+    private int getContactID() throws SQLException{
+        ContactDAO contactDAO = new ContactDAO();
+        Contact apptContact = new Contact(customerComboBox.getValue().getCustomerName(), emailTextField.getText());
+        return contactDAO.get(CONN, apptContact).getContactID();
+    }
+
+    @FXML
+    private void createAppointment() throws SQLException {
+        //#TODO Add in exception handling for
+        // 1. Weekends
+        // 2. Overlapping
+        saveContact();
+
+        String title = titleTextField.getText();
+        String description = descTextField.getText();
+        String location = locationTextField.getText();
+        String type = apptTypeTextField.getText();
+        LocalDateTime startTime = LocalDateTime.of(LocalDate.now(), startComboBox.getValue());
+        LocalDateTime endTime = LocalDateTime.of(LocalDate.now(), endComboBox.getValue());
+        LocalDateTime create_date = LocalDateTime.now();
+        String created_by = LOGGED_IN_USER.getUserName();
+        String last_update = LocalDateTime.now().toString();
+        String last_updated_by = LOGGED_IN_USER.getUserName();
+        int customer_id = customerComboBox.getValue().getCustomerID();
+        int user_id = LOGGED_IN_USER.getUserId();
+        int contact_id = getContactID();
+
+        Appointment appt = new Appointment(title, description, location, type, startTime, endTime, create_date,
+                created_by, last_update, last_updated_by, customer_id, user_id, contact_id);
+
+        AppointmentDAO dao = new AppointmentDAO();
+        if (dao.save(CONN, appt)) {
+            Alert saveAlert = new Alert(Alert.AlertType.INFORMATION);
+            saveAlert.setHeaderText("Appointment Created!");
+            saveAlert.setContentText("Appointment created successfully!");
+            saveAlert.show();
+        } else {
+            Alert saveAlert = new Alert(Alert.AlertType.ERROR);
+            saveAlert.setHeaderText("Save Unsuccessful");
+            saveAlert.setContentText("Error creating appointment!");
+            saveAlert.show();
         }
     }
 }
