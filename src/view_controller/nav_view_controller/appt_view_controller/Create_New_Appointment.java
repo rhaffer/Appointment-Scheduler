@@ -122,7 +122,6 @@ public class Create_New_Appointment extends BaseController {
         Contact apptContact = new Contact(customerComboBox.getValue().getCustomerName(), emailTextField.getText());
         if (contactDAO.get(CONN, apptContact) == null){
             contactDAO.save(CONN, apptContact);
-            System.out.println("Contact saved!");
         }
     }
 
@@ -139,6 +138,7 @@ public class Create_New_Appointment extends BaseController {
         // 2. Overlapping
         saveContact();
 
+        // Prepping data to put into Appointment class
         String title = titleTextField.getText();
         String description = descTextField.getText();
         String location = locationTextField.getText();
@@ -153,9 +153,11 @@ public class Create_New_Appointment extends BaseController {
         int user_id = LOGGED_IN_USER.getUserId();
         int contact_id = getContactID();
 
+        //Creating new Appointment
         Appointment appt = new Appointment(title, description, location, type, startTime, endTime, create_date,
                 created_by, last_update, last_updated_by, customer_id, user_id, contact_id);
 
+        //Inserting into DB
         AppointmentDAO dao = new AppointmentDAO();
         if (dao.save(CONN, appt)) {
             Alert saveAlert = new Alert(Alert.AlertType.INFORMATION);
