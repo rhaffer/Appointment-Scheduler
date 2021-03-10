@@ -10,9 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/** This class is the Data Access Object for the Country class. This class performs all database queries for the
+ * Country class to include all create, read, update and delete functionalities. */
 public class CountryDAO {
+    // Completed.
     private final ObservableList<Country> countries = FXCollections.observableArrayList();
 
+    /** Returns all of the Countries stored within the database.
+     @param conn The database Connection object to perform the query
+     @return ObservableList Country countries */
     public ObservableList<Country> getAll(Connection conn) throws SQLException {
         String selectAllStatement = "SELECT * FROM countries";
         DBQuery.setPreparedStatement(conn, selectAllStatement);

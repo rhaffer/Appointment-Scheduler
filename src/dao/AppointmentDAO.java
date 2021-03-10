@@ -11,9 +11,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/** This class is the Data Access Object for the Appointment class. This class performs all database queries for the
+ * Appointment class to include all create, read, update and delete functionalities. */
 public class AppointmentDAO {
+    // Completed.
     private final ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
+    /** Returns a list of start times. This is used to gather data for the "Start Times" ComboBox.
+     @param conn The database Connection object to perform the query.
+     @return ObservableList LocalDateTime startTimes */
     public ObservableList<LocalDateTime> getStartTimes(Connection conn) throws SQLException{
         ObservableList<LocalDateTime> startTimes = FXCollections.observableArrayList();
         String selectStatement = "SELECT Start FROM appointments";
@@ -28,6 +34,9 @@ public class AppointmentDAO {
         return startTimes;
     }
 
+    /** Returns a list of all appointments in the database.
+     @param conn The database Connection object to perform the query
+     @return ObservableList Appointment appointments */
     public ObservableList<Appointment> getAll(Connection conn) throws SQLException{
         String selectAllStatement = "SELECT * FROM appointments";
         DBQuery.setPreparedStatement(conn, selectAllStatement);
@@ -55,6 +64,10 @@ public class AppointmentDAO {
         return appointments;
     }
 
+    /** This method returns True if the database insertion completed successfully, false otherwise.
+     @param conn The database Connection object to perform the query.
+     @param appt The appointment to be saved
+     @return True if insertion completed successfully, false otherwise */
     public Boolean save(Connection conn, Appointment appt) throws SQLException{
         String insertStatement = "INSERT INTO appointments(Title, Description, Location, Type, Start, End, Create_Date, " +
                 "Created_By, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";

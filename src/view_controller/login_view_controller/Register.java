@@ -13,7 +13,9 @@ import view_controller.BaseController;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/** This class acts as the Controller for the Register screen. */
 public class Register extends BaseController {
+    // Completed.
 
     @FXML
     AnchorPane registerPane;
@@ -36,6 +38,7 @@ public class Register extends BaseController {
     @FXML
     TextField password2Field;
 
+    /** This method initializes the controller to have the correct Resource Bundle based on Locale. */
     @FXML
     private void initialize(){
         createAccountLabel.setText(RB.getString("createAccountLabel"));
@@ -46,10 +49,13 @@ public class Register extends BaseController {
         backToSignInButton.setText(RB.getString("backToSignIn"));
     }
 
+    /** This method handles the "Back to Login" button. Returns the user to the Login screen. */
     public void backToSignInClicked(){
         loadNewScene(registerPane, "Login.fxml");
     }
 
+    /** This method handles the Register button. If the passwords entered match, then the User is entered into the
+     * database. An error is thrown if the User is unable to inserted or if the passwords do not match. */
     public void registerButtonClicked() throws SQLException {
         if (passwordsMatch()){
             UserDAO userDAO = new UserDAO();
@@ -73,6 +79,8 @@ public class Register extends BaseController {
         }
     }
 
+    /** This method checks to ensure that the passwords entered match.
+     @return True if the passwords match, false otherwise. */
     public Boolean passwordsMatch(){
         String password1 = password1Field.getText();
         String password2 = password2Field.getText();

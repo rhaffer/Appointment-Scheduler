@@ -10,9 +10,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/** This class is the Data Access Object for the FirstLevelDivision class. This class performs all database queries for the
+ * FirstLevelDivision class to include all create, read, update and delete functionalities. */
 public class FLDDAO {
+    // Completed.
     private final ObservableList<FirstLevelDivision> first_level_divisions = FXCollections.observableArrayList();
 
+    /** This method returns all FirstLevelDivisions by the Country ID.
+     @param conn The Connection object used to perform the query
+     @param country_ID The Country ID used to perform the query
+     @return ObservableList FirstLevelDivision first_level_divisions */
     public ObservableList<FirstLevelDivision> getAllByCountryID(Connection conn, int country_ID) throws SQLException {
         String selectAllStatement = "SELECT * FROM first_level_divisions WHERE COUNTRY_ID = ?";
         DBQuery.setPreparedStatement(conn, selectAllStatement);

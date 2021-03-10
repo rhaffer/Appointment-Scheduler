@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/** This class acts as the Controller for the Login page. */
 public class Login extends BaseController {
+    // Completed.
     @FXML
     private AnchorPane loginPane;
 
@@ -40,6 +42,7 @@ public class Login extends BaseController {
     @FXML
     private Label defaultLocaleLabel;
 
+    /** This method initializes the Login screen with appropriate resource bundles depending on Locale. */
     @FXML
     private void initialize(){
         titleLabel.setText(RB.getString("title"));
@@ -52,6 +55,10 @@ public class Login extends BaseController {
         defaultLocaleLabel.setText(LOCALE.toString());
     }
 
+    /** This method handles the Sign In button. This method first checks to make sure that all fields have something
+     * inputted inside them, then if the password comes back as a match, it logs the attempt as successful and loads
+     * the Navigation FXML file. If the password is incomplete or there is nothing in the Username or Password fields
+     * then the login attempt is logged as unsuccessful. */
     @FXML
     public void signInClicked() throws SQLException {
         if (checkUserFields()){
@@ -78,13 +85,12 @@ public class Login extends BaseController {
         }
     }
 
-    // Loads the Registration screen
-    public void registerClicked(){
-        loadNewScene(loginPane,"Register.fxml");
-    }
+    /** This method loads the Register FXML if "Create One!" is clicked. */
+    @FXML
+    public void registerClicked(){ loadNewScene(loginPane,"Register.fxml"); }
 
-    /* Retrieves the username and password for the new user and validates vs the users in the database.
-    If the username and password match based off the data in the database, then return true, else false */
+    /** This method checks to see if the username and password match based off of entries in the database.
+     @return True if username and password match in database, false otherwise. */
     private Boolean checkUsernamePassword() throws SQLException {
         String userName = userNameField.getText();
         String password = passwordField.getText();
@@ -94,12 +100,16 @@ public class Login extends BaseController {
         return validateLogin(user, newUser);
     }
 
-    // Returns false if either the username or password fields are empty
+    /** This method checks the username and password fields to validate if they are empty.
+     @return True if neither fields are empty, false otherwise. */
     private Boolean checkUserFields(){
         return !(userNameField.getText().equals("") | passwordField.getText().equals(""));
     }
 
-    // Returns true if the username and passwords match, false otherwise.
+    /** This method checks to ensure that the username and passwords match.
+     @param user1 The first User to be checked
+     @param user2 The second User to be checked
+     @return True if username and passwords match, false otherwise. */
     private Boolean validateLogin(User user1, User user2){
         if (user1 == null | user2 == null){
             return false;
@@ -107,6 +117,8 @@ public class Login extends BaseController {
         return user1.getUserName().equals(user2.getUserName()) & user1.getPassword().equals(user2.getPassword());
     }
 
+    /** This method writes the login attempt status to login_activity.txt.
+     @param attemptStatus The variable that says whether the attempt was successful or not. */
     private void writeLoginAttempt(String attemptStatus){
         String path = "src/login_activity.txt";
         String message = userNameField.getText() + " attempted to login at " + LocalDateTime.now().toString() + "\nLogin " + attemptStatus + "\n\n";

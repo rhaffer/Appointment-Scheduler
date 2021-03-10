@@ -18,12 +18,18 @@ import java.sql.Connection;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/** This class acts as the abstract class for all other Controllers. This class holds the logged in user,
+ * database Connection, locale, and resource bundle information. */
 public abstract class BaseController {
+    // Completed.
     protected static User LOGGED_IN_USER;
     protected static Connection CONN = DBConnection.openConnection();
     protected static Locale LOCALE = Locale.getDefault();
     protected static ResourceBundle RB = ResourceBundle.getBundle("locales", Locale.getDefault());
 
+    /** A method that loads a new scene and provides an animation.
+     @param pane The AnchorPane in which the FXML is loaded to
+     @param resource The new FXML file to be loaded */
     protected void loadNewScene(AnchorPane pane, String resource) {
         // Each page is recreated -- kind of annoying, but is what it is
         if (!pane.getChildren().isEmpty()) {
@@ -31,7 +37,6 @@ public abstract class BaseController {
         }
 
         try {
-            // Loads the new FXML with appropriate template for each config
             Parent root = FXMLLoader.load(getClass().getResource(resource));
             Scene scene = pane.getScene();
             // Adds fancy transition up -- just wanted practice
@@ -49,12 +54,13 @@ public abstract class BaseController {
             System.out.println("Cannot load new scene. Reason: " + e.getMessage());
         }
     }
-
+    /** A method that loads a new scene and provides an animation.
+     @param pane The StackPane in which the FXML is loaded to
+     @param resource The new FXML file to be loaded */
     protected void loadNewScene(StackPane pane, String resource){
         // Each page is recreated -- kind of annoying, but is what it is
         if (!pane.getChildren().isEmpty()){ pane.getChildren().clear(); }
         try {
-            // Loads the new FXML with appropriate template for each config
             Parent root = FXMLLoader.load(getClass().getResource(resource));
             Scene scene = pane.getScene();
             // Adds fancy transition up -- just wanted practice
