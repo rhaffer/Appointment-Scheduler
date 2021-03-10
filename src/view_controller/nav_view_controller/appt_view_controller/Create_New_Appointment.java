@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.time.*;
 import java.util.TimeZone;
 
+/** This class acts as the handler for the Create_New_Appointment FXML. This controller handles the interface for
+ * creating new appointments. */
 public class Create_New_Appointment extends BaseController {
     int APPOINTMENT_LENGTH = 30;
     //Business hours are 8AM to 10PM EST
@@ -54,17 +56,20 @@ public class Create_New_Appointment extends BaseController {
     @FXML
     Button createApptButton;
 
+    /** This method populates the Customer ComboBox upon initialization. */
     @FXML
-    private void initialize() throws SQLException {
-        populateCustomerComboBox();
-    }
+    private void initialize() throws SQLException { populateCustomerComboBox(); }
 
+    /** This method creates the Customer DAO in order to populate the Customer ComboBox. */
     private void populateCustomerComboBox() throws SQLException {
         CustomerDAO dao = new CustomerDAO();
         ObservableList<Customer> customers = dao.getAll(CONN);
         customerComboBox.setItems(customers);
     }
 
+    /** This method converts a LocalDateTime to EST.
+     * @param date The date to be converted
+     * @return Returns a ZoneDateTime with the same Instant as the date param. */
     private ZonedDateTime convertEstToLocalTime(LocalDateTime date){
         //Converts a LocalDateTime to EST and returns that time in Local
         ZoneId estZoneId = ZoneId.of("America/New_York");
@@ -74,6 +79,8 @@ public class Create_New_Appointment extends BaseController {
         return estZDT.withZoneSameInstant(localZoneId);
     }
 
+    /** This method populates the Start time ComboBox. If a Start time is already in the database it is excluded from the
+     * ComboBox. */
     private void populateStartTimeBox() throws SQLException {
         AppointmentDAO dao = new AppointmentDAO();
         ObservableList<LocalDateTime> startTimes = dao.getStartTimes(CONN);
@@ -102,6 +109,8 @@ public class Create_New_Appointment extends BaseController {
         }
     }
 
+    /** This method populates the End time ComboBox. End times begin one Appointment_Length after the time in the
+     * Start ComboBox. */
     @FXML
     private void populateEndTimeBox(){
         //Start time is already converted from populateStartTimeBox
@@ -120,6 +129,8 @@ public class Create_New_Appointment extends BaseController {
         }
     }
 
+    /** This method checks to see if a contact already exists within the database for an Appointment and then saves the
+     * new Contact if that Contact doesn't exist. */
     private void saveContact() throws SQLException {
         ContactDAO contactDAO = new ContactDAO();
         Contact apptContact = new Contact(customerComboBox.getValue().getCustomerName(), emailTextField.getText());
@@ -128,12 +139,15 @@ public class Create_New_Appointment extends BaseController {
         }
     }
 
+    /** Retreives the Contact ID for the Appointment.
+     * @return The Contact ID for the Contact with the information provided from the fields in Create_New_Appointment.fxml */
     private int getContactID() throws SQLException{
         ContactDAO contactDAO = new ContactDAO();
         Contact apptContact = new Contact(customerComboBox.getValue().getCustomerName(), emailTextField.getText());
         return contactDAO.get(CONN, apptContact).getContactID();
     }
 
+    /** This function disables weekends from being selected on the DateTimePicker. */
     private void disableWeekends(){
         if((dateDatePicker.getValue().getDayOfWeek().equals(DayOfWeek.SUNDAY)
                 || dateDatePicker.getValue().getDayOfWeek().equals(DayOfWeek.SATURDAY))){
@@ -145,11 +159,15 @@ public class Create_New_Appointment extends BaseController {
         }
     }
 
+    /** This function handles the DatePicker object. After selecting a date time, it verifies that the date is not a
+     * weekend and then populates the available start times. */
     @FXML
     private void datePickerHandler() throws SQLException {
         disableWeekends();
         populateStartTimeBox();
     }
+
+    /** */
     @FXML
     private void createAppointment() throws SQLException {
         //Saves Contact Information to contacts table

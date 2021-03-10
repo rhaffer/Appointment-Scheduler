@@ -14,7 +14,9 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+/** This class acts as the Controller for the Navigation page. */
 public class Navigation extends BaseController {
+    // Completed.
     @FXML
     AnchorPane navigationPane;
 
@@ -33,8 +35,8 @@ public class Navigation extends BaseController {
     @FXML
     Button reportButton;
 
+    /** This method checks for an appointment within 15 minutes of logging in. */
     private void checkAppointments() throws SQLException {
-        // Checks for appointments within 15 minutes on login
         LocalDateTime currentTime = LocalDateTime.now();
         AppointmentDAO dao = new AppointmentDAO();
         ObservableList<Appointment> appointments = dao.getAll(CONN);
@@ -51,26 +53,28 @@ public class Navigation extends BaseController {
         }
     }
 
+    /** Upon logging in and the Navigation controller loading, the check appointments method will be called. */
     @FXML
-    private void initialize() throws SQLException {
-        checkAppointments();
-    }
-    @FXML
-    private void customersButtonClicked() {
-        loadNewScene(stackPane, "cust_view_controller/Customers.fxml");
-    }
+    private void initialize() throws SQLException { checkAppointments(); }
 
+    /** This method acts as the handler for the Customers button. If the Customers button is clicked, it loads the
+     * Customer FXML. */
+    @FXML
+    private void customersButtonClicked() { loadNewScene(stackPane, "cust_view_controller/Customers.fxml"); }
+
+    /** This method acts as the handler for the Appointments button. If the Appointments button is clicked, it loads the
+     * Appointment FXML. */
     @FXML
     private void appointmentsButtonClicked(){ loadNewScene(stackPane, "appt_view_controller/Appointments.fxml");}
 
+    /** This method acts as the handler for the Calendar button. If the Calendar button is clicked, it loads the
+     * Calendar FXML. */
     @FXML
-    private void calendarButtonClicked(){
-        loadNewScene(stackPane, "cal_view_controller/Calendar.fxml");
-    }
+    private void calendarButtonClicked(){ loadNewScene(stackPane, "cal_view_controller/Calendar.fxml"); }
 
+    /** This method acts as the handler for the Reports button. If the Reports button is clicked, it loads the
+     * Reports FXML. */
     @FXML
-    private void reportButtonClicked(){
-        System.out.println("Report button clicked.");
-    }
+    private void reportButtonClicked(){ System.out.println("Report button clicked."); }
 
 }
