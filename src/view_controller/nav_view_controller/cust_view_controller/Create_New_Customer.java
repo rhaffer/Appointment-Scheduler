@@ -17,7 +17,9 @@ import view_controller.BaseController;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/** This class handles the Create_New_Customer.fxml. */
 public class Create_New_Customer extends BaseController {
+    // Completed.
     @FXML
     TextField custNameTF;
 
@@ -39,35 +41,26 @@ public class Create_New_Customer extends BaseController {
     @FXML
     Button custSubmitButton;
 
+    /** This method checks to see if all entry fields have some value in them.
+     * @return True if all fields are filled, false otherwise. */
     private Boolean checkEntryFields() {
         return !(custNameTF.getText().equals("") | custAddressTF.getText().equals("") | custPostalTF.getText().equals("") |
                 custCountryCB.getItems().isEmpty() | custFldCB.getItems().isEmpty());
     }
 
-    private Customer createNewCustomer() {
-        Customer customerToAdd = new Customer();
-        customerToAdd.setCustomerName(custNameTF.getText());
-        customerToAdd.setAddress(custAddressTF.getText());
-        customerToAdd.setPostalCode(custPostalTF.getText());
-        customerToAdd.setPhoneNumber(custPhoneTF.getText());
-        customerToAdd.setCreateDate(LocalDateTime.now().toString());
-        customerToAdd.setCreatedBy(LOGGED_IN_USER.getUserName());
-        customerToAdd.setLastUpdatedBy(LOGGED_IN_USER.getUserName());
-        customerToAdd.setDivisionID(custFldCB.getValue().getDivisionID());
-        return customerToAdd;
-    }
-
+    /** This method generates the Country ComboBox upon initialization. */
     @FXML
-    private void initialize() throws SQLException {
-        generateCountryComboBox();
-    }
+    private void initialize() throws SQLException { generateCountryComboBox(); }
 
+    /** This method uses a CountryDAO object to retrieve all of the countries for the Country ComboBox. */
     private void generateCountryComboBox() throws SQLException {
         CountryDAO dao = new CountryDAO();
         ObservableList<Country> countries = dao.getAll(CONN);
         custCountryCB.setItems(countries);
     }
 
+    /** This method uses a FLDDAO object to retrieve the FirstLevelDivisions associated with the Country ID selected
+     * in the Country ComboBox. */
     @FXML
     private void generateDivisionComboBox() throws SQLException {
         FLDDAO dao = new FLDDAO();
@@ -75,6 +68,9 @@ public class Create_New_Customer extends BaseController {
         custFldCB.setItems(divisions);
     }
 
+    /** This method inserts new Customer information into the database. First it checks that all fields have a value.
+     * If they do, it attempts to insert the data into the database. An Alert of type Error will be produced if either
+     * any of the fields are empty or if database insertion fails. */
     @FXML
     private void saveNewCustomer() throws SQLException {
         if (checkEntryFields()) {

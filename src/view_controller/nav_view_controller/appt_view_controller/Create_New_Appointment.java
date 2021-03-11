@@ -18,6 +18,7 @@ import java.util.TimeZone;
 /** This class acts as the handler for the Create_New_Appointment FXML. This controller handles the interface for
  * creating new appointments. */
 public class Create_New_Appointment extends BaseController {
+    // Completed.
     int APPOINTMENT_LENGTH = 30;
     //Business hours are 8AM to 10PM EST
     int BUSINESS_OPEN = 8;
@@ -167,7 +168,11 @@ public class Create_New_Appointment extends BaseController {
         populateStartTimeBox();
     }
 
-    /** */
+    /** This method handles the "Create Appointment" button. First this method saves the Contact information associated
+     * with the Appointment being created. Next, it preps the data by putting each field into it's own respective
+     * variable that is then used in an Appointment constructor. Finally, it inserts the information into the
+     * database and provides an alert if insertions was successful or unsuccessful. The Start and End ComboBoxes are
+     * then repopulated with new times in order to account for the new Appointment being created. */
     @FXML
     private void createAppointment() throws SQLException {
         //Saves Contact Information to contacts table
