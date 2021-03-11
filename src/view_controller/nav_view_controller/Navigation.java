@@ -30,9 +30,6 @@ public class Navigation extends BaseController {
     Button appointmentsButton;
 
     @FXML
-    Button calendarButton;
-
-    @FXML
     Button reportButton;
 
     /** This method checks for an appointment within 15 minutes of logging in. */
@@ -66,11 +63,6 @@ public class Navigation extends BaseController {
      * Appointment FXML. */
     @FXML
     private void appointmentsButtonClicked(){ loadNewScene(stackPane, "appt_view_controller/Appointments.fxml");}
-
-    /** This method acts as the handler for the Calendar button. If the Calendar button is clicked, it loads the
-     * Calendar FXML. */
-    @FXML
-    private void calendarButtonClicked(){ loadNewScene(stackPane, "cal_view_controller/Calendar.fxml"); }
 
     /** This method acts as the handler for the Reports button. If the Reports button is clicked, it loads the
      * Reports FXML. */

@@ -1,0 +1,9 @@
+user attempted to login at 2021-03-10T21:18:02.099786600
+Login Successful
+
+user attempted to login at 2021-03-10T21:34:32.379402
+Login Successful
+
+user attempted to login at 2021-03-10T21:36:25.572311100
+Login Successful
+
