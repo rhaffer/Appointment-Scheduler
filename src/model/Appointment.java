@@ -89,9 +89,14 @@ public class Appointment {
         contact_id = new_contact_id;
     }
 
-    /** Returns the Appointment ID.
-     @return int appointment_id */
-    public int getAppointmentID() { return appointment_id; }
+    /**
+     * Returns the Appointment ID.
+     *
+     * @return int appointment_id
+     */
+    public int getAppointment_id() {
+        return appointment_id;
+    }
 
     /** Returns the Appointment title.
      @return String title */
@@ -107,23 +112,40 @@ public class Appointment {
 
     /** Returns the type of Appointment.
      @return String type */
-    public String getType(){ return type; }
+    public String getType(){
+        return type;
+    }
 
-    /** Returns the Appointment start time.
-     @return LocalDateTime start */
-    public LocalDateTime getStartTime(){ return start; }
+    /**
+     * Returns the Appointment start time.
+     *
+     * @return LocalDateTime start
+     */
+    public LocalDateTime getStart() {
+        return start;
+    }
 
-    /** Returns the Appointment end time.
-     @return LocalDateTime end */
-    public LocalDateTime getEndTime(){ return end; }
+    /**
+     * Returns the Appointment end time.
+     *
+     * @return LocalDateTime end
+     */
+    public LocalDateTime getEnd() {
+        return end;
+    }
 
-    /** Returns the date the Appointment was scheduled.
-     @return LocalDateTime create_date */
-    public LocalDateTime getCreateDate() { return create_date; }
+    /**
+     * Returns the date the Appointment was scheduled.
+     *
+     * @return LocalDateTime create_date
+     */
+    public LocalDateTime getCreate_date() {
+        return create_date;
+    }
 
     /** Returns who created the Appointment (User).
      @return String created_by */
-    public String getCreatedBy() { return created_by; }
+    public String getCreated_by() { return created_by; }
 
     /** Returns when the Appointment was last updated.
      @return String last_update */
@@ -131,19 +153,23 @@ public class Appointment {
 
     /** Returns who last updated the Appointment.
      @return String last_updated_by */
-    public String getLastUpdatedBy() { return last_updated_by; }
+    public String getLastUpdatedBy() {
+        return last_updated_by;
+    }
 
     /** Returns the Customer ID associated with the Appointment.
      @return int customer_id */
-    public int getCustomerID() { return customer_id; }
+    public int getCustomer_id() { return customer_id; }
 
     /** Returns the User ID associated with the Appointment.
      @return int user_id */
-    public int getUserID() { return user_id; }
+    public int getUserID() {
+        return user_id;
+    }
 
     /** Returns the Contact ID associated with the Appointment.
      @return int contact_id */
-    public int getContactID() { return contact_id; }
+    public int getContact_id() { return contact_id; }
 
     /** Sets the Appointment ID.
      @param id The new Appointment ID to be set. */

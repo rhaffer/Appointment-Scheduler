@@ -77,14 +77,14 @@ public class AppointmentDAO {
         statement.setString(2, appt.getDescription());
         statement.setString(3, appt.getLocation());
         statement.setString(4, appt.getType());
-        statement.setString(5, appt.getStartTime().toString());
-        statement.setString(6, appt.getEndTime().toString());
-        statement.setString(7, appt.getCreateDate().toString());
-        statement.setString(8, appt.getCreatedBy());
+        statement.setString(5, appt.getStart().toString());
+        statement.setString(6, appt.getEnd().toString());
+        statement.setString(7, appt.getCreate_date().toString());
+        statement.setString(8, appt.getCreated_by());
         statement.setString(9, appt.getLastUpdatedBy());
-        statement.setInt(10, appt.getCustomerID());
+        statement.setInt(10, appt.getCustomer_id());
         statement.setInt(11, appt.getUserID());
-        statement.setInt(12, appt.getContactID());
+        statement.setInt(12, appt.getContact_id());
         try {
             statement.execute();
             return true;

@@ -38,9 +38,9 @@ public class Navigation extends BaseController {
         AppointmentDAO dao = new AppointmentDAO();
         ObservableList<Appointment> appointments = dao.getAll(CONN);
         for (Appointment appt : appointments){
-            if (appt.getStartTime().isAfter(currentTime)){
-                long diff = Math.abs(ChronoUnit.MINUTES.between(currentTime, appt.getStartTime()));
-                if (diff <= 15){
+            if (appt.getStart().isAfter(currentTime)) {
+                long diff = Math.abs(ChronoUnit.MINUTES.between(currentTime, appt.getStart()));
+                if (diff <= 15) {
                     Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
                     timeAlert.setHeaderText("Upcoming Appointment");
                     timeAlert.setContentText("There is an appointment coming up in " + diff + " minutes!");
