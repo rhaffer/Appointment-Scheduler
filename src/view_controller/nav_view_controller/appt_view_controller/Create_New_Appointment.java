@@ -13,7 +13,6 @@ import view_controller.BaseController;
 
 import java.sql.SQLException;
 import java.time.*;
-import java.util.TimeZone;
 
 /** This class acts as the handler for the Create_New_Appointment FXML. This controller handles the interface for
  * creating new appointments. */
@@ -61,23 +60,23 @@ public class Create_New_Appointment extends BaseController {
     @FXML
     private void initialize() throws SQLException { populateCustomerComboBox(); }
 
+    private void clearAllFields(){
+        customerComboBox.getItems().clear();
+        titleTextField.clear();
+        descTextField.clear();
+        locationTextField.clear();
+        emailTextField.clear();
+        apptTypeTextField.clear();
+        dateDatePicker.setValue(null);
+        startComboBox.getItems().clear();
+        endComboBox.getItems().clear();
+    }
+
     /** This method creates the Customer DAO in order to populate the Customer ComboBox. */
     private void populateCustomerComboBox() throws SQLException {
         CustomerDAO dao = new CustomerDAO();
         ObservableList<Customer> customers = dao.getAll(CONN);
         customerComboBox.setItems(customers);
-    }
-
-    /** This method converts a LocalDateTime to EST.
-     * @param date The date to be converted
-     * @return Returns a ZoneDateTime with the same Instant as the date param. */
-    private ZonedDateTime convertEstToLocalTime(LocalDateTime date){
-        //Converts a LocalDateTime to EST and returns that time in Local
-        ZoneId estZoneId = ZoneId.of("America/New_York");
-        ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
-        ZonedDateTime estZDT = ZonedDateTime.of(date, estZoneId);
-        // Returns a ZDT object in the local time zone
-        return estZDT.withZoneSameInstant(localZoneId);
     }
 
     /** This method populates the Start time ComboBox. If a Start time is already in the database it is excluded from the
@@ -86,19 +85,21 @@ public class Create_New_Appointment extends BaseController {
         AppointmentDAO dao = new AppointmentDAO();
         ObservableList<LocalDateTime> startTimes = dao.getStartTimes(CONN);
         //Only gives available appointment times for business open hours
-        LocalDate currentDate = LocalDate.now();
-        LocalTime startTime = LocalTime.of(BUSINESS_OPEN, 0);
-        //Turns current date and business open hours to LDT
-        LocalDateTime startDateTime = LocalDateTime.of(currentDate, startTime);
-        //Converts that time from EST to Local
-        ZonedDateTime estStartDateTime = convertEstToLocalTime(startDateTime);
+        //Business start hours are in EST
+        LocalDate chosenDate = dateDatePicker.getValue();
+        LocalTime businessStartTime = LocalTime.of(BUSINESS_OPEN, 0);
+        ZonedDateTime startTime = ZonedDateTime.of(chosenDate, businessStartTime, ZoneId.of("America/New_York"));
+        //Converts business start times from EST to Local
+        LocalDateTime estStartDateTime = converter.convertToLocal(startTime);
         LocalTime start = estStartDateTime.toLocalTime();
 
-        LocalTime endTime = LocalTime.of(BUSINESS_CLOSED, 0);
-        //Turns current date and business closed hours to LDT
-        LocalDateTime endDateTime = LocalDateTime.of(currentDate, endTime);
-        //Converts that time from EST to Local
-        ZonedDateTime estEndDateTime = convertEstToLocalTime(endDateTime);
+        //Business end hours are in EST
+        LocalTime businessEndTime = LocalTime.of(BUSINESS_CLOSED, 0);
+        //Below line keeps user from starting an appointment when the business closes
+        businessEndTime = businessEndTime.minusMinutes(APPOINTMENT_LENGTH);
+        ZonedDateTime endTime = ZonedDateTime.of(chosenDate, businessEndTime, ZoneId.of("America/New_York"));
+        //Converts business end times from EST to Local
+        LocalDateTime estEndDateTime = converter.convertToLocal(endTime);
         LocalTime end = estEndDateTime.toLocalTime();
 
         while (start.isBefore(end.plusSeconds(1))) {
@@ -116,18 +117,21 @@ public class Create_New_Appointment extends BaseController {
     private void populateEndTimeBox(){
         //Start time is already converted from populateStartTimeBox
         LocalDate currentDate = LocalDate.now();
-        LocalTime start = startComboBox.getValue().plusMinutes(APPOINTMENT_LENGTH);
+        if (startComboBox.getItems() != null){
+            LocalTime start = startComboBox.getValue().plusMinutes(APPOINTMENT_LENGTH);
 
-        //Convert and populate End Time Box -- same as populateStartTimeBox
-        LocalTime endTime = LocalTime.of(BUSINESS_CLOSED, 0);
-        LocalDateTime endDateTime = LocalDateTime.of(currentDate, endTime);
-        ZonedDateTime estEndDateTime = convertEstToLocalTime(endDateTime);
-        LocalTime end = estEndDateTime.toLocalTime();
+            //Convert and populate End Time Box -- same as populateStartTimeBox
+            LocalTime endTime = LocalTime.of(BUSINESS_CLOSED, 0);
+            ZonedDateTime endDateTime = ZonedDateTime.of(currentDate, endTime, ZoneId.of("America/New_York"));
+            LocalDateTime estEndDateTime = converter.convertToLocal(endDateTime);
+            LocalTime end = estEndDateTime.toLocalTime();
 
-        while(start.isBefore(end.plusSeconds(1))){
-            endComboBox.getItems().add(start);
-            start = start.plusMinutes(APPOINTMENT_LENGTH);
+            while(start.isBefore(end.plusSeconds(1))){
+                endComboBox.getItems().add(start);
+                start = start.plusMinutes(APPOINTMENT_LENGTH);
+            }
         }
+
     }
 
     /** This method checks to see if a contact already exists within the database for an Appointment and then saves the
@@ -164,6 +168,9 @@ public class Create_New_Appointment extends BaseController {
      * weekend and then populates the available start times. */
     @FXML
     private void datePickerHandler() throws SQLException {
+        if(startComboBox.getItems() != null){
+            startComboBox.getItems().clear();
+        }
         disableWeekends();
         populateStartTimeBox();
     }
@@ -183,8 +190,8 @@ public class Create_New_Appointment extends BaseController {
         String description = descTextField.getText();
         String location = locationTextField.getText();
         String type = apptTypeTextField.getText();
-        LocalDateTime startTime = LocalDateTime.of(LocalDate.now(), startComboBox.getValue());
-        LocalDateTime endTime = LocalDateTime.of(LocalDate.now(), endComboBox.getValue());
+        LocalDateTime startTime = LocalDateTime.of(dateDatePicker.getValue(), startComboBox.getValue());
+        LocalDateTime endTime = LocalDateTime.of(dateDatePicker.getValue(), endComboBox.getValue());
         LocalDateTime create_date = LocalDateTime.now();
         String created_by = LOGGED_IN_USER.getUserName();
         String last_update = LocalDateTime.now().toString();
@@ -210,7 +217,7 @@ public class Create_New_Appointment extends BaseController {
             saveAlert.setContentText("Error creating appointment!");
             saveAlert.show();
         }
-        populateStartTimeBox();
-        populateEndTimeBox();
+        clearAllFields();
+        populateCustomerComboBox();
     }
 }

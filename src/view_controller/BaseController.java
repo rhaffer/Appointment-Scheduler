@@ -12,6 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import model.User;
 import util.DBConnection;
+import util.TimeConverter;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,6 +23,7 @@ import java.util.ResourceBundle;
  * database Connection, locale, and resource bundle information. */
 public abstract class BaseController {
     // Completed.
+    protected static final TimeConverter converter = new TimeConverter();
     protected static User LOGGED_IN_USER;
     protected static Connection CONN = DBConnection.openConnection();
     protected static Locale LOCALE = Locale.getDefault();
