@@ -66,5 +66,5 @@ public class Navigation extends BaseController {
     /** This method acts as the handler for the Reports button. If the Reports button is clicked, it loads the
      * Reports FXML. */
     @FXML
-    private void reportButtonClicked(){ System.out.println("Report button clicked."); }
+    private void reportButtonClicked(){ loadNewScene(stackPane, "rpt_view_controller/Report.fxml"); }
 }
