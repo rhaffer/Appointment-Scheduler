@@ -90,6 +90,38 @@ public class Appointment {
     }
 
     /**
+     * Additional overloaded Constructor used when updating appointments
+     * @param newAppointmentId new appointment id
+     * @param newTitle new title
+     * @param newDescription new description
+     * @param newLocation new location
+     * @param newType new type
+     * @param newStartTime new start time
+     * @param newEndTime new end time
+     * @param newLastUpdate new last update timestamp
+     * @param newLastUpdatedBy new last updated by
+     * @param newCustomerId new customer id
+     * @param newUserId new user id
+     * @param newContactId new contact id
+     */
+    public Appointment(int newAppointmentId, String newTitle, String newDescription, String newLocation, String newType,
+                       LocalDateTime newStartTime, LocalDateTime newEndTime, String newLastUpdate, String newLastUpdatedBy,
+                       int newCustomerId, int newUserId, int newContactId) {
+        appointment_id = newAppointmentId;
+        title = newTitle;
+        description = newDescription;
+        location = newLocation;
+        type = newType;
+        start = newStartTime;
+        end = newEndTime;
+        last_update = newLastUpdate;
+        last_updated_by = newLastUpdatedBy;
+        customer_id = newCustomerId;
+        user_id = newUserId;
+        contact_id = newContactId;
+    }
+
+    /**
      * Returns the Appointment ID.
      *
      * @return int appointment_id

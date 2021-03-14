@@ -1,5 +1,6 @@
 package view_controller.nav_view_controller.cust_view_controller;
 
+import dao.AppointmentDAO;
 import dao.CountryDAO;
 import dao.CustomerDAO;
 import dao.FLDDAO;
@@ -16,6 +17,10 @@ import view_controller.BaseController;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * This class handles the updating and deleting behavior for the Customer class.
+ */
 
 public class Update_Delete_Customer extends BaseController {
     @FXML
@@ -66,12 +71,18 @@ public class Update_Delete_Customer extends BaseController {
     @FXML
     Button updateButton;
 
+    /**
+     * This method handles populating the Customer ComboBox.
+     */
     private void setCustomerComboBox() throws SQLException {
         CustomerDAO dao = new CustomerDAO();
         ObservableList<Customer> customers = dao.getAll(CONN);
         customerComboBox.setItems(customers);
     }
 
+    /**
+     * This method populates the Table View for Customers.
+     */
     private void setCustomerTableView() throws SQLException {
         ObservableList<Map<String, Object>> allCustomers = FXCollections.observableArrayList();
         CustomerDAO dao = new CustomerDAO();
@@ -88,9 +99,13 @@ public class Update_Delete_Customer extends BaseController {
             allCustomers.add(item);
         }
         updateCustomerTable.setItems(allCustomers);
-
     }
 
+    /**
+     * This method populates the Country ComboBox
+     * @param countryName The country name
+     * @return Country result
+     */
     private Country populateCountryCB(String countryName) throws SQLException {
         Country result = null;
         CountryDAO countryDAO = new CountryDAO();
@@ -104,6 +119,12 @@ public class Update_Delete_Customer extends BaseController {
         return result;
     }
 
+    /**
+     * This method populates the First Level Division ComboBox based off of the country ID
+     * @param divisionName The division name
+     * @param countryID The country ID
+     * @return FirstLevelDivision result
+     */
     private FirstLevelDivision populateDivisionCB(String divisionName, int countryID) throws SQLException{
         FirstLevelDivision result = null;
         FLDDAO divisionDAO = new FLDDAO();
@@ -117,6 +138,9 @@ public class Update_Delete_Customer extends BaseController {
         return result;
     }
 
+    /**
+     * This method clears all fields on the current screen.
+     */
     private void clearFields(){
         custIDTF.setText("");
         custNameTF.setText("");
@@ -126,7 +150,10 @@ public class Update_Delete_Customer extends BaseController {
         custCountryCB.setValue(null);
         custFLDCB.setValue(null);
     }
-    
+
+    /**
+     * This method populates all of the Update Fields when a Customer is selected.
+     */
     @FXML
     private void populateUpdateFields() throws SQLException {
         // This causes a null pointer exception to be caught when deleting a Customer
@@ -143,6 +170,9 @@ public class Update_Delete_Customer extends BaseController {
         custFLDCB.setValue(populateDivisionCB(customerInfo.get(5), custCountryCB.getValue().getCountryID()));
     }
 
+    /**
+     * This method handles updating the Customer information within the database.
+     */
     @FXML
     private void updateCustomer() throws SQLException{
         CustomerDAO dao = new CustomerDAO();
@@ -160,25 +190,61 @@ public class Update_Delete_Customer extends BaseController {
         setCustomerTableView();
     }
 
+    /**
+     * This method handles deletion of both the Customer and any associated appointments.
+     * Lambda 1 -- filters the response made by the User
+     * Lambda 2 -- checks what the response is by the user and either deletes or cancels the operation accordingly
+     */
     @FXML
-    private void deleteCustomer() throws SQLException {
-        CustomerDAO dao = new CustomerDAO();
-        if(dao.delete(CONN, Integer.parseInt(custIDTF.getText()))){
-            setCustomerComboBox();
-            setCustomerTableView();
-            clearFields();
-            Alert newAlert = new Alert(Alert.AlertType.INFORMATION);
-            newAlert.setHeaderText("Customer Deleted");
-            newAlert.setContentText("Customer deleted successfully!");
-            newAlert.show();
-        }else{
-            Alert newAlert = new Alert(Alert.AlertType.ERROR);
-            newAlert.setHeaderText("Error deleting customer");
-            newAlert.setContentText("Customer not deleted successfully");
-            newAlert.show();
-        }
+    private void deleteButtonHandler(){
+        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Deleting this customer will also delete all " +
+                "associated appointments.");
+        deleteAlert.setHeaderText("Are you sure?");
+        deleteAlert.showAndWait()
+                .filter(response -> response == ButtonType.OK) // Lambda 1
+                .ifPresent(response -> {
+                    try {
+                        deleteCustomer(); // Lambda 2
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                });
     }
 
+    /**
+     * This method deletes the Customer and associated Appointments.
+     */
+    @FXML
+    private void deleteCustomer() throws SQLException {
+        AppointmentDAO apptDao = new AppointmentDAO();
+        if (apptDao.delete(CONN, custIDTF.getText())){
+            CustomerDAO dao = new CustomerDAO();
+            if(dao.delete(CONN, Integer.parseInt(custIDTF.getText()))){
+                setCustomerComboBox();
+                setCustomerTableView();
+                clearFields();
+                Alert newAlert = new Alert(Alert.AlertType.INFORMATION);
+                newAlert.setHeaderText("Customer Deleted");
+                newAlert.setContentText("Customer deleted successfully!");
+                newAlert.show();
+            }else{
+                Alert newAlert = new Alert(Alert.AlertType.ERROR);
+                newAlert.setHeaderText("Error deleting customer");
+                newAlert.setContentText("Customer not deleted successfully");
+                newAlert.show();
+            }
+        }else{
+            Alert newAlert = new Alert(Alert.AlertType.ERROR);
+            newAlert.setHeaderText("Error deleting appointments.");
+            newAlert.setContentText("Could not delete Customer's appointments");
+            newAlert.show();
+        }
+
+    }
+
+    /**
+     * Initializes the cell value factories for the table view as well as sets the Customer ComboBox and Table View.
+     */
     @FXML
     private void initialize() throws SQLException {
         nameColumn.setCellValueFactory(new MapValueFactory<>("name_column"));

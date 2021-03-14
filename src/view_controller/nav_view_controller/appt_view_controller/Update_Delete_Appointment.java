@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Appointment;
+import model.Contact;
 import model.Customer;
 import view_controller.BaseController;
 
@@ -421,7 +422,8 @@ public class Update_Delete_Appointment extends BaseController {
         if(dao.delete(CONN, Integer.parseInt(appointmentIDTextField.getText()))){
             Alert newAlert = new Alert(Alert.AlertType.INFORMATION);
             newAlert.setHeaderText("Appointment Deleted");
-            newAlert.setContentText("Appointment deleted successfully!");
+            newAlert.setContentText(appointmentIDTextField.getText() + " " + apptTypeTextField.getText() +
+                    " has been cancelled.");
             newAlert.show();
             populateAllTableView();
             populateMonthTableView();
@@ -432,6 +434,62 @@ public class Update_Delete_Appointment extends BaseController {
             newAlert.setHeaderText("Error deleting appointment");
             newAlert.setContentText("Appointment not deleted successfully");
             newAlert.show();
+        }
+    }
+
+    /** This method checks to see if a contact already exists within the database for an Appointment and then saves the
+     * new Contact if that Contact doesn't exist. */
+    private void saveContact() throws SQLException {
+        ContactDAO contactDAO = new ContactDAO();
+        Contact apptContact = new Contact(customerComboBox.getValue().getCustomerName(), emailTextField.getText());
+        if (contactDAO.get(CONN, apptContact) == null){
+            contactDAO.save(CONN, apptContact);
+        }
+    }
+
+    /** Retreives the Contact ID for the Appointment.
+     * @return The Contact ID for the Contact with the information provided from the fields in Create_New_Appointment.fxml */
+    private int getContactID() throws SQLException{
+        ContactDAO contactDAO = new ContactDAO();
+        Contact apptContact = new Contact(customerComboBox.getValue().getCustomerName(), emailTextField.getText());
+        return contactDAO.get(CONN, apptContact).getContactID();
+    }
+
+    @FXML
+    private void updateButtonHandler() throws SQLException {
+        saveContact();
+        // Prepping data to put into Appointment class
+        String title = titleTextField.getText();
+        String description = descTextField.getText();
+        String location = locationTextField.getText();
+        String type = apptTypeTextField.getText();
+        LocalDateTime startTime = LocalDateTime.of(dateDatePicker.getValue(), startComboBox.getValue());
+        LocalDateTime endTime = LocalDateTime.of(dateDatePicker.getValue(), endComboBox.getValue());
+        String last_update = LocalDateTime.now().toString();
+        String last_updated_by = LOGGED_IN_USER.getUserName();
+        int customer_id = customerComboBox.getValue().getCustomerID();
+        int user_id = LOGGED_IN_USER.getUserId();
+        int contact_id = getContactID();
+
+        //Creating new Appointment
+        Appointment appt = new Appointment(Integer.parseInt(appointmentIDTextField.getText()), title, description, location, type, startTime, endTime, last_update,
+                last_updated_by, customer_id, user_id, contact_id);
+
+        AppointmentDAO dao = new AppointmentDAO();
+        if (dao.update(CONN, appt)) {
+            Alert saveAlert = new Alert(Alert.AlertType.INFORMATION);
+            saveAlert.setHeaderText("Appointment Updated!");
+            saveAlert.setContentText("Appointment updated successfully!");
+            saveAlert.show();
+            populateAllTableView();
+            populateMonthTableView();
+            populateWeekTableView();
+            clearAllFields();
+        } else {
+            Alert saveAlert = new Alert(Alert.AlertType.ERROR);
+            saveAlert.setHeaderText("Update Unsuccessful");
+            saveAlert.setContentText("Error updating appointment!");
+            saveAlert.show();
         }
     }
 }

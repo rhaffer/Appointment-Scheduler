@@ -102,6 +102,43 @@ public class AppointmentDAO {
     }
 
     /**
+     * This method updates an Appointment based off of changes made.
+     * @param conn The Connection object used to connect to the database
+     * @param appointment The appointment to be updated
+     * @return True if update was successful, false otherwise
+     */
+    public Boolean update(Connection conn, Appointment appointment) throws SQLException {
+        String updateStatement = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?," +
+                "End = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? " +
+                "WHERE Appointment_ID = ?";
+        DBQuery.setPreparedStatement(conn, updateStatement);
+        PreparedStatement statement = DBQuery.getPreparedStatement();
+        statement.setString(1, appointment.getTitle());
+        statement.setString(2, appointment.getDescription());
+        statement.setString(3, appointment.getLocation());
+        statement.setString(4, appointment.getType());
+        statement.setString(5, converter.convertToGMT(ZonedDateTime.of(appointment.getStart(),
+                ZoneId.systemDefault())).toString());
+        statement.setString(6, converter.convertToGMT(ZonedDateTime.of(appointment.getEnd(),
+                ZoneId.systemDefault())).toString());
+        statement.setString(7,  converter.convertToGMT(ZonedDateTime.of(LocalDateTime.now(),
+                ZoneId.systemDefault())).toString());
+        statement.setString(8, appointment.getLastUpdatedBy());
+        statement.setInt(9, appointment.getCustomer_id());
+        statement.setInt(10, appointment.getUserID());
+        statement.setInt(11, appointment.getContact_id());
+        statement.setInt(12, appointment.getAppointment_id());
+        try{
+            System.out.println(statement);
+            statement.execute();
+            return true;
+        }catch (SQLException ex){
+            System.out.println("SQL Exception: " + ex.getMessage());
+            return false;
+        }
+    }
+
+    /**
      * This method returns True if the appointment is deleted from the database, false otherwise.
      * @param conn The Connection object used to connect to the DB
      * @param appointmentID The Appointment ID of the Appointment to be deleted
@@ -116,6 +153,26 @@ public class AppointmentDAO {
             statement.execute();
             return true;
         }catch (SQLException ex){
+            System.out.println("SQL Exception: " + ex.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * This method returns True if the appointment(s) is deleted from the database, false otherwise.
+     * @param conn The Connection object used to connect to the DB
+     * @param customerID The Customer ID for the appointments to be deleted
+     * @return True if deletion completes successfully, false otherwise
+     */
+    public Boolean delete(Connection conn, String customerID) throws SQLException{
+        String delStatement = "DELETE FROM appointments WHERE Customer_ID = ?";
+        DBQuery.setPreparedStatement(conn, delStatement);
+        PreparedStatement statement = DBQuery.getPreparedStatement();
+        statement.setString(1, customerID);
+        try{
+            statement.execute();
+            return true;
+        }catch(SQLException ex){
             System.out.println("SQL Exception: " + ex.getMessage());
             return false;
         }
