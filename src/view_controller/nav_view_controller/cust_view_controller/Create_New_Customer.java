@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 
 /** This class handles the Create_New_Customer.fxml. */
 public class Create_New_Customer extends BaseController {
-    // Completed.
     @FXML
     TextField custNameTF;
 

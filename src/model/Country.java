@@ -2,7 +2,6 @@ package model;
 
 /** This class holds the data for countries. */
 public class Country {
-    // Completed.
     private int country_id; //Auto Increment (PK)
     private String country_name; // VARCHAR(50)
     private String create_date; // DateTime

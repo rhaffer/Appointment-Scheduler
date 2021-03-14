@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 /** This class creates the database Connection object. */
 public class DBConnection {
-    // Completed.
     private static final String username = "U07mtP";
     private static final String password = "53689072744";
     private static final String protocol = "jdbc";
@@ -26,7 +25,8 @@ public class DBConnection {
     private static final String MYSQLJDBCDriver = "com.mysql.jdbc.Driver";
     private static Connection conn = null;
 
-    /** This method opens the database Connection. */
+    /** This method opens the database Connection.
+     * @return The Connection object used to access the Database */
     public static Connection openConnection(){
         try{
             Class.forName(MYSQLJDBCDriver);

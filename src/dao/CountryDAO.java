@@ -13,7 +13,6 @@ import java.sql.SQLException;
 /** This class is the Data Access Object for the Country class. This class performs all database queries for the
  * Country class to include all create, read, update and delete functionalities. */
 public class CountryDAO {
-    // Completed.
     private final ObservableList<Country> countries = FXCollections.observableArrayList();
 
     /** Returns all of the Countries stored within the database.

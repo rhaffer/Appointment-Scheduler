@@ -2,7 +2,6 @@ package model;
 
 /** This class holds the data for first level division (state/province) data. */
 public class FirstLevelDivision {
-    // Completed.
     private int division_id; // Int(10) / Auto Increment / PK
     private String division_name; // VARCHAR (50)
     private String create_date; // DATETIME

@@ -2,7 +2,6 @@ package model;
 
 /** This class holds the data for contacts. */
 public class Contact {
-    // Completed.
     private int contact_id; // PK INT(10)
     private String contact_name; // VARCHAR(50)
     private String email; // VARCHAR(50)

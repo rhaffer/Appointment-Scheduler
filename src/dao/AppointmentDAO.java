@@ -14,7 +14,6 @@ import java.time.ZonedDateTime;
 /** This class is the Data Access Object for the Appointment class. This class performs all database queries for the
  * Appointment class to include all create, read, update and delete functionalities. */
 public class AppointmentDAO {
-    // Completed.
     private final TimeConverter converter = new TimeConverter();
     private final ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
@@ -97,6 +96,26 @@ public class AppointmentDAO {
             statement.execute();
             return true;
         } catch (SQLException ex) {
+            System.out.println("SQL Exception: " + ex.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * This method returns True if the appointment is deleted from the database, false otherwise.
+     * @param conn The Connection object used to connect to the DB
+     * @param appointmentID The Appointment ID of the Appointment to be deleted
+     * @return True if deletion completes successfully, false otherwise
+     */
+    public Boolean delete(Connection conn, int appointmentID) throws SQLException {
+        String delStatement = "DELETE FROM appointments WHERE Appointment_ID = ?";
+        DBQuery.setPreparedStatement(conn, delStatement);
+        PreparedStatement statement = DBQuery.getPreparedStatement();
+        statement.setInt(1, appointmentID);
+        try{
+            statement.execute();
+            return true;
+        }catch (SQLException ex){
             System.out.println("SQL Exception: " + ex.getMessage());
             return false;
         }

@@ -2,7 +2,6 @@ package model;
 
 /** This class holds the data for users. */
 public class User {
-    // Completed.
     private int user_id; // Auto increment / (PK)
     private String user_name; // VARCHAR(50) UNIQUE
     private String password; // TEXT
@@ -92,6 +91,4 @@ public class User {
     /** Sets the date the User was last updated.
      @param updateAuthor The author who last updated the User */
     public void setLastUpdatedBy(String updateAuthor) { last_updated_by = updateAuthor;}
-
-
 }

@@ -2,7 +2,6 @@ package model;
 
 /** This class holds the data for customers. */
 public class Customer {
-    // Completed.
     private int customerID; //Auto Increment (PK)
     private String customerName; // VARCHAR(50)
     private String address; // VARCHAR (100)
@@ -64,8 +63,6 @@ public class Customer {
     public Customer() {
     }
 
-    // Getters and Setters for Customer Class
-    //  *** CustomerID and LastUpdate do not have setters ***
     /** Returns the Customer ID.
      @return int customerID */
     public int getCustomerID() { return customerID; }

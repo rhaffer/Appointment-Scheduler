@@ -16,7 +16,6 @@ import java.time.temporal.ChronoUnit;
 
 /** This class acts as the Controller for the Navigation page. */
 public class Navigation extends BaseController {
-    // Completed.
     @FXML
     AnchorPane navigationPane;
 
@@ -68,5 +67,4 @@ public class Navigation extends BaseController {
      * Reports FXML. */
     @FXML
     private void reportButtonClicked(){ System.out.println("Report button clicked."); }
-
 }

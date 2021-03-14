@@ -22,7 +22,6 @@ import java.util.ResourceBundle;
 /** This class acts as the abstract class for all other Controllers. This class holds the logged in user,
  * database Connection, locale, and resource bundle information. */
 public abstract class BaseController {
-    // Completed.
     protected static final TimeConverter converter = new TimeConverter();
     protected static User LOGGED_IN_USER;
     protected static Connection CONN = DBConnection.openConnection();
@@ -53,9 +52,10 @@ public abstract class BaseController {
             timeline.play();
         }
         catch (IOException e){
-            System.out.println("Cannot load new scene. Reason: " + e.getMessage());
+            e.printStackTrace();
         }
     }
+
     /** A method that loads a new scene and provides an animation.
      @param pane The StackPane in which the FXML is loaded to
      @param resource The new FXML file to be loaded */
@@ -77,7 +77,7 @@ public abstract class BaseController {
             timeline.play();
         }
         catch (IOException e){
-            System.out.println("Cannot load new scene. Reason: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

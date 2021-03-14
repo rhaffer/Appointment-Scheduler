@@ -11,7 +11,6 @@ import java.sql.SQLException;
 /** This class is the Data Access Object for the Contact class. This class performs all database queries for the
  * Contact class to include all create, read, update and delete functionalities. */
 public class ContactDAO {
-    // Completed.
     /** Returns a Contact based off of information provided by the Contact class. This class is used to verify if a
      * Contact exists within the database.
      @param conn The database Connection object to use to perform the query
@@ -35,6 +34,34 @@ public class ContactDAO {
                 return null;
             }
         } catch (SQLException ex) {
+            System.out.println("SQL Exception: " + ex.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * This method retrieves a Contact from the database by Contact_ID
+     * @param conn The Connection object used to connect to the database
+     * @param contact_id The Contact_ID to retrieve a Contact from the database
+     * @return A Contact object if one exists with the Contact_ID, null otherwise
+     */
+    public Contact get(Connection conn, int contact_id) throws SQLException{
+        String selectStatement = "SELECT * FROM contacts WHERE Contact_ID = ?";
+        DBQuery.setPreparedStatement(conn, selectStatement);
+        PreparedStatement statement = DBQuery.getPreparedStatement();
+        statement.setInt(1, contact_id);
+        try{
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+            if (rs.next()){
+                int contactID = rs.getInt("Contact_ID");
+                String contactName = rs.getString("Contact_Name");
+                String contactEmail = rs.getString("Email");
+                return new Contact(contactID, contactName, contactEmail);
+            }else{
+                return null;
+            }
+        }catch (SQLException ex){
             System.out.println("SQL Exception: " + ex.getMessage());
             return null;
         }

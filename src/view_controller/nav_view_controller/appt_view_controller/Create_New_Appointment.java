@@ -17,7 +17,6 @@ import java.time.*;
 /** This class acts as the handler for the Create_New_Appointment FXML. This controller handles the interface for
  * creating new appointments. */
 public class Create_New_Appointment extends BaseController {
-    // Completed.
     int APPOINTMENT_LENGTH = 30;
     //Business hours are 8AM to 10PM EST
     int BUSINESS_OPEN = 8;
@@ -60,6 +59,9 @@ public class Create_New_Appointment extends BaseController {
     @FXML
     private void initialize() throws SQLException { populateCustomerComboBox(); }
 
+    /**
+     * This method clears all of the JavaFX Gui fields for the Create Appointment page.
+     */
     private void clearAllFields(){
         customerComboBox.getItems().clear();
         titleTextField.clear();

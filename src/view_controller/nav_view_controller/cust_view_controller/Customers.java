@@ -8,7 +8,6 @@ import view_controller.BaseController;
 
 /** This class handles the Customer navigation FXML. */
 public class Customers extends BaseController {
-    // Completed.
     @FXML
     StackPane customerStackPane;
 

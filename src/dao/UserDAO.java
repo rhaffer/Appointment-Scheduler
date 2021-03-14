@@ -11,7 +11,6 @@ import java.sql.SQLException;
 /** This class is the Data Access Object for the User class. This class performs all database queries for the
  * User class to include all create, read, update and delete functionalities. */
 public class UserDAO{
-    // Completed.
     /** Returns a User by the username.
      @param conn The Connection object used to perform the query.
      @param searchUser The username to be searched for

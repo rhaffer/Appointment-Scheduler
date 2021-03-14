@@ -13,7 +13,6 @@ import java.sql.SQLException;
 /** This class is the Data Access Object for the FirstLevelDivision class. This class performs all database queries for the
  * FirstLevelDivision class to include all create, read, update and delete functionalities. */
 public class FLDDAO {
-    // Completed.
     private final ObservableList<FirstLevelDivision> first_level_divisions = FXCollections.observableArrayList();
 
     /** This method returns all FirstLevelDivisions by the Country ID.

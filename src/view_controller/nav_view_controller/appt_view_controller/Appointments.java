@@ -2,12 +2,16 @@ package view_controller.nav_view_controller.appt_view_controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import view_controller.BaseController;
 
 /** This class acts as the handler for the Appointments FXML. This controller is used as a way to navigate between
  * creating and updating/deleting Appointments. */
 public class Appointments extends BaseController {
+    @FXML
+    Label appointmentLabel;
+
     @FXML
     StackPane apptStackPane;
 

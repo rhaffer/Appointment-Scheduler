@@ -20,21 +20,19 @@
          </TextField>
       </HBox>
       <HBox layoutX="10.0" layoutY="124.0" prefHeight="37.0" prefWidth="226.0">
-         <children>
-            <Label text="Phone">
-               <HBox.margin>
-                  <Insets top="5.0"/>
-               </HBox.margin>
-            </Label>
-            <TextField fx:id="custPhoneTF">
-               <HBox.margin>
-                  <Insets left="59.0"/>
-               </HBox.margin>
-            </TextField>
-         </children>
          <VBox.margin>
             <Insets top="20.0"/>
          </VBox.margin>
+         <Label text="Phone">
+            <HBox.margin>
+               <Insets top="5.0"/>
+            </HBox.margin>
+         </Label>
+         <TextField fx:id="custPhoneTF">
+            <HBox.margin>
+               <Insets left="59.0"/>
+            </HBox.margin>
+         </TextField>
       </HBox>
       <HBox layoutX="10.0" layoutY="10.0" prefHeight="37.0" prefWidth="226.0">
          <VBox.margin>

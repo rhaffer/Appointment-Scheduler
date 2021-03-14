@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 /** This class is the Data Access Object for the Customer class. This class performs all database queries for the
  * Customer class to include all create, read, update and delete functionalities. */
 public class CustomerDAO {
-    // Completed.
     private final ObservableList<Customer> customers = FXCollections.observableArrayList();
 
     /** This method returns a list of all Customers within the database.

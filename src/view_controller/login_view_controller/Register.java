@@ -15,8 +15,6 @@ import java.time.LocalDateTime;
 
 /** This class acts as the Controller for the Register screen. */
 public class Register extends BaseController {
-    // Completed.
-
     @FXML
     AnchorPane registerPane;
 
@@ -85,6 +83,5 @@ public class Register extends BaseController {
         String password1 = password1Field.getText();
         String password2 = password2Field.getText();
         return password1.equals(password2) & password1.length() > 1;
-
     }
 }

@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 
 /** This class acts as the Controller for the Login page. */
 public class Login extends BaseController {
-    // Completed.
     @FXML
     private AnchorPane loginPane;
 
@@ -131,4 +130,3 @@ public class Login extends BaseController {
         }
     }
 }
-
