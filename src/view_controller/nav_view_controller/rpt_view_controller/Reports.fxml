@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="view_controller.nav_view_controller.rpt_view_controller.Reports">
+   <HBox layoutX="3.0" prefHeight="63.0" prefWidth="635.0">
+      <Label text="Reports">
+         <font>
+            <Font size="30.0"/>
+         </font>
+         <padding>
+            <Insets left="5.0" top="10.0"/>
+         </padding>
+      </Label>
+      <Button fx:id="totalNumberButton" mnemonicParsing="false" onAction="#totalNumberButtonHandler"
+              text="Total Number">
+         <HBox.margin>
+            <Insets left="145.0" top="10.0"/>
+         </HBox.margin>
+      </Button>
+      <Button fx:id="contactScheduleButton" layoutX="113.0" layoutY="10.0" mnemonicParsing="false"
+              onAction="#contactScheduleButtonHandler" text="Contact Schedule">
+         <HBox.margin>
+            <Insets left="10.0" top="10.0"/>
+         </HBox.margin>
+      </Button>
+      <Button fx:id="apptByDateButton" layoutX="168.0" layoutY="10.0" mnemonicParsing="false"
+              onAction="#apptByDateButtonHandler" text="Number of Appointments">
+         <HBox.margin>
+            <Insets left="10.0" top="10.0"/>
+         </HBox.margin>
+      </Button>
+   </HBox>
+   <StackPane fx:id="reportStackPane" layoutX="2.0" layoutY="63.0" prefHeight="530.0" prefWidth="640.0"/>
+</AnchorPane>

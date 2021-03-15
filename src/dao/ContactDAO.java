@@ -1,6 +1,9 @@
 package dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.Contact;
+import report.ContactScheduleReport;
 import util.DBQuery;
 
 import java.sql.Connection;
@@ -66,6 +69,39 @@ public class ContactDAO {
             return null;
         }
     }
+
+    public ObservableList<ContactScheduleReport> getReport(Connection conn) throws SQLException {
+        ObservableList<ContactScheduleReport> results = FXCollections.observableArrayList();
+        String joinStatement = "SELECT contacts.Contact_Name, contacts.Contact_ID, appointments.Appointment_ID, " +
+                "appointments.Title, appointments.Description, appointments.Start, appointments.End, " +
+                "appointments.Customer_ID " +
+                "FROM contacts " +
+                "INNER JOIN appointments ON (appointments.Contact_ID=contacts.Contact_ID)";
+        DBQuery.setPreparedStatement(conn, joinStatement);
+        PreparedStatement statement = DBQuery.getPreparedStatement();
+        try{
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+            while(rs.next()){
+                String contactName = rs.getString("Contact_Name");
+                String contactID = String.valueOf(rs.getInt("Contact_ID"));
+                String appointmentID = String.valueOf(rs.getInt("Appointment_ID"));
+                String appointmentTitle = rs.getString("Title");
+                String appointmentDesc = rs.getString("Description");
+                String appointmentStart = rs.getTimestamp("Start").toString();
+                String appointmentEnd = rs.getTimestamp("End").toString();
+                String customerID = String.valueOf(rs.getInt("Customer_ID"));
+                ContactScheduleReport result = new ContactScheduleReport(contactName, contactID, appointmentID, appointmentTitle, appointmentDesc,
+                        appointmentStart, appointmentEnd, customerID);
+                results.add(result);
+            }
+            return results;
+        }catch (SQLException ex){
+            System.out.println("SQL Exception: " + ex.getMessage());
+            return null;
+        }
+    }
+
 
     /** This method returns True if the database insertion completed successfully, false otherwise.
      @param conn The database Connection object to perform the query

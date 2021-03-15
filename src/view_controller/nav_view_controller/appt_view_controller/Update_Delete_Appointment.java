@@ -455,6 +455,10 @@ public class Update_Delete_Appointment extends BaseController {
         return contactDAO.get(CONN, apptContact).getContactID();
     }
 
+    /**
+     * This method handles the "Update" button. It checks to see if a contact exists, and if it does, saves the Contact.
+     * After that, it updates the appointment information as entered into the associated fields.
+     */
     @FXML
     private void updateButtonHandler() throws SQLException {
         saveContact();

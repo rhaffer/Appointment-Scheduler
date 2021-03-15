@@ -84,9 +84,10 @@ been logged in for any period of time.
 --------------------------------
 
 A3f:
-
-
-
+There are three reports included within the application. Each one fall under the "Reports" screen on the Navigation
+panel. The first is the total number of appointments seperated by Type and Month. The second is a schedule by Contact
+that includes the contact name, contact ID, appointment ID, title, description, start date, end date, and customer ID.
+The third is the number of appointments that occur by date.
 --------------------------------
 
 B:
@@ -104,12 +105,13 @@ and status of the login attempt.
 --------------------------------
 
 D:
-Javadoc comments are made throughout >70% of the code and are located in javadoc/index.html.
+Javadoc comments are made throughout 100% of the code and are located in javadoc/index.html.
 --------------------------------
 
 E:
 Additional report description:
-
+The additional report that I chose to include was the number of appointments that occur on each day. This report scans
+all of the appointments and checks to see how many appointments were created on that day.
 --------------------------------
 
 

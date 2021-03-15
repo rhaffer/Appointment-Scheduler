@@ -12,6 +12,9 @@ import java.time.Month;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class handles the Total Number Report that describes appointments by Type and by Month.
+ */
 public class Total_Number_Report extends BaseController {
     @FXML
     TextArea typeTextArea;
@@ -19,12 +22,18 @@ public class Total_Number_Report extends BaseController {
     @FXML
     TextArea monthTextArea;
 
+    /**
+     * Initializes the data.
+     */
     @FXML
     private void initialize() throws SQLException {
         getUniqueApptTypes();
         getUniqueApptMonths();
     }
 
+    /**
+     * Returns the number of appointments by Type and inserts into TextArea
+     */
     private void getUniqueApptTypes() throws SQLException {
         AppointmentDAO dao = new AppointmentDAO();
         ObservableList<Appointment> appointments = dao.getAll(CONN);
@@ -47,6 +56,9 @@ public class Total_Number_Report extends BaseController {
         typeTextArea.setText(String.valueOf(textAreaString));
     }
 
+    /**
+     * Returns the number of appointments by Month and inserts into TextArea
+     */
     private void getUniqueApptMonths() throws SQLException{
         AppointmentDAO dao = new AppointmentDAO();
         ObservableList<Appointment> appointments = dao.getAll(CONN);
