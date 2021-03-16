@@ -16,6 +16,7 @@ import util.TimeConverter;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -26,6 +27,7 @@ public abstract class BaseController {
     protected static User LOGGED_IN_USER;
     protected static Connection CONN = DBConnection.openConnection();
     protected static Locale LOCALE = Locale.getDefault();
+    protected static ZoneId ZONE = ZoneId.systemDefault();
     protected static ResourceBundle RB = ResourceBundle.getBundle("locales", Locale.getDefault());
 
     /** A method that loads a new scene and provides an animation.

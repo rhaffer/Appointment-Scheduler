@@ -50,8 +50,8 @@ public class Login extends BaseController {
         signInButton.setText(RB.getString("signIn"));
         noAccountLabel.setText(RB.getString("noAccount"));
         createAccountLabel.setText(RB.getString("createAccount"));
-        languageLabel.setText(RB.getString("language"));
-        defaultLocaleLabel.setText(LOCALE.toString());
+        languageLabel.setText(RB.getString("location"));
+        defaultLocaleLabel.setText(ZONE.toString());
     }
 
     /** This method handles the Sign In button. This method first checks to make sure that all fields have something
