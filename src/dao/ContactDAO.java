@@ -19,6 +19,7 @@ public class ContactDAO {
      @param conn The database Connection object to use to perform the query
      @param contact The contact to verify if exists
      @return Contact new Contact() if True, null otherwise. */
+
     public Contact get(Connection conn, Contact contact) throws SQLException {
         String selectStatement = "SELECT * FROM contacts WHERE Contact_Name = ? AND Email = ?";
         DBQuery.setPreparedStatement(conn, selectStatement);
@@ -101,7 +102,6 @@ public class ContactDAO {
             return null;
         }
     }
-
 
     /** This method returns True if the database insertion completed successfully, false otherwise.
      @param conn The database Connection object to perform the query

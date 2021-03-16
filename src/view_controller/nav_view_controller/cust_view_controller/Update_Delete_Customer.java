@@ -130,18 +130,27 @@ public class Update_Delete_Customer extends BaseController {
         FLDDAO divisionDAO = new FLDDAO();
         ObservableList<FirstLevelDivision> divisions = divisionDAO.getAllByCountryID(CONN, countryID);
         custFLDCB.setItems(divisions);
-        for (FirstLevelDivision division : divisions){
-            if (division.getDivisionName().equals(divisionName)){
+        for (FirstLevelDivision division : divisions) {
+            if (division.getDivisionName().equals(divisionName)) {
                 result = division;
             }
         }
         return result;
     }
 
+    @FXML
+    private void resetDivisionCB() throws SQLException {
+        custFLDCB.getItems().clear();
+        FLDDAO divisionDAO = new FLDDAO();
+        ObservableList<FirstLevelDivision> divisions = divisionDAO.getAllByCountryID(CONN,
+                custCountryCB.getValue().getCountryID());
+        custFLDCB.setItems(divisions);
+    }
+
     /**
      * This method clears all fields on the current screen.
      */
-    private void clearFields(){
+    private void clearFields() {
         custIDTF.setText("");
         custNameTF.setText("");
         custPhoneTF.setText("");
@@ -255,4 +264,5 @@ public class Update_Delete_Customer extends BaseController {
         setCustomerComboBox();
         setCustomerTableView();
     }
+
 }
