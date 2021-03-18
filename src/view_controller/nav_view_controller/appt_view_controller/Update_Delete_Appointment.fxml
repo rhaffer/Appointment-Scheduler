@@ -29,8 +29,8 @@
                <Insets top="5.0"/>
             </HBox.margin>
          </Label>
-         <TextField fx:id="appointmentIDTextField" disable="true" editable="false" prefHeight="27.0"
-                    prefWidth="100.0" promptText="Auto Generated">
+         <TextField fx:id="appointmentIDTextField" disable="true" editable="false" prefHeight="27.0" prefWidth="100.0"
+                    promptText="Auto Generated">
             <HBox.margin>
                <Insets left="10.0"/>
             </HBox.margin>
@@ -163,10 +163,10 @@
          <VBox.margin>
             <Insets top="10.0"/>
          </VBox.margin>
-         <Button fx:id="updateButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="65.0"
-                 text="Update"/>
-         <Button fx:id="deleteButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="27.0"
-                 prefWidth="77.0" text="Delete">
+         <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateButtonHandler" prefHeight="27.0"
+                 prefWidth="65.0" text="Update"/>
+         <Button fx:id="deleteButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
+                 onAction="#deleteButtonHandler" prefHeight="27.0" prefWidth="77.0" text="Delete">
             <HBox.margin>
                <Insets left="65.0"/>
             </HBox.margin>
@@ -174,41 +174,44 @@
       </HBox>
    </VBox>
    <TabPane layoutX="221.0" layoutY="36.0" prefHeight="410.0" prefWidth="415.0" tabClosingPolicy="UNAVAILABLE">
-      <Tab fx:id="weekViewTab" text="Week View">
+      <Tab fx:id="weekViewTab" onSelectionChanged="#populateWeekTableView" text="Week View">
          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <TableView fx:id="weekTableView" layoutY="1.0" prefHeight="376.0" prefWidth="415.0">
+            <TableView fx:id="weekTableView" layoutY="1.0" onMouseClicked="#populateFieldsWeekView" prefHeight="376.0"
+                       prefWidth="415.0">
                <columns>
-                  <TableColumn prefWidth="99.0" text="Appointment ID"/>
-                  <TableColumn prefWidth="51.0" text="Title"/>
-                  <TableColumn prefWidth="73.0" text="Description"/>
-                  <TableColumn prefWidth="57.0" text="Location"/>
-                  <TableColumn prefWidth="65.0" text="Contact ID"/>
-                  <TableColumn prefWidth="68.0" text="Start Time"/>
-                  <TableColumn prefWidth="65.0" text="End Time"/>
-                  <TableColumn prefWidth="87.0" text="Customer ID"/>
+                  <TableColumn fx:id="weekAppointmentColumn" prefWidth="99.0" text="Appointment ID"/>
+                  <TableColumn fx:id="weekTitleColumn" prefWidth="51.0" text="Title"/>
+                  <TableColumn fx:id="weekDescriptionColumn" prefWidth="73.0" text="Description"/>
+                  <TableColumn fx:id="weekLocationColumn" prefWidth="57.0" text="Location"/>
+                  <TableColumn fx:id="weekContactColumn" prefWidth="65.0" text="Contact ID"/>
+                  <TableColumn fx:id="weekStartColumn" prefWidth="68.0" text="Start Time"/>
+                  <TableColumn fx:id="weekEndColumn" prefWidth="65.0" text="End Time"/>
+                  <TableColumn fx:id="weekCustomerIDColumn" prefWidth="87.0" text="Customer ID"/>
                </columns>
             </TableView>
          </AnchorPane>
       </Tab>
-      <Tab fx:id="monthViewTab" text="Month View">
+      <Tab fx:id="monthViewTab" onSelectionChanged="#populateFieldsMonthView" text="Month View">
          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="381.0" prefWidth="422.0">
-            <TableView fx:id="monthTableView" layoutY="1.0" prefHeight="376.0" prefWidth="415.0">
+            <TableView fx:id="monthTableView" layoutY="1.0" onMouseClicked="#populateFieldsMonthView" prefHeight="376.0"
+                       prefWidth="415.0">
                <columns>
-                  <TableColumn prefWidth="99.0" text="Appointment ID"/>
-                  <TableColumn prefWidth="51.0" text="Title"/>
-                  <TableColumn prefWidth="73.0" text="Description"/>
-                  <TableColumn prefWidth="57.0" text="Location"/>
-                  <TableColumn prefWidth="64.0" text="Contact ID"/>
-                  <TableColumn prefWidth="68.0" text="Start Time"/>
-                  <TableColumn prefWidth="64.0" text="End Time"/>
-                  <TableColumn prefWidth="75.0" text="Customer ID"/>
+                  <TableColumn fx:id="monthAppointmentColumn" prefWidth="99.0" text="Appointment ID"/>
+                  <TableColumn fx:id="monthTitleColumn" prefWidth="51.0" text="Title"/>
+                  <TableColumn fx:id="monthDescriptionColumn" prefWidth="73.0" text="Description"/>
+                  <TableColumn fx:id="monthLocationColumn" prefWidth="57.0" text="Location"/>
+                  <TableColumn fx:id="monthContactColumn" prefWidth="64.0" text="Contact ID"/>
+                  <TableColumn fx:id="monthStartColumn" prefWidth="68.0" text="Start Time"/>
+                  <TableColumn fx:id="monthEndColumn" prefWidth="64.0" text="End Time"/>
+                  <TableColumn fx:id="monthCustomerIDColumn" prefWidth="75.0" text="Customer ID"/>
                </columns>
             </TableView>
          </AnchorPane>
       </Tab>
-      <Tab fx:id="allAppointmentsTab" text="All Appointments">
+      <Tab fx:id="allAppointmentsTab" onSelectionChanged="#populateFieldsAllAppt" text="All Appointments">
          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <TableView fx:id="allAppointmentsTableView" layoutY="1.0" prefHeight="376.0" prefWidth="415.0">
+            <TableView fx:id="allAppointmentsTableView" layoutY="1.0" onMouseClicked="#populateFieldsAllAppt"
+                       prefHeight="376.0" prefWidth="415.0">
                <columns>
                   <TableColumn fx:id="allAppointmentIDColumn" prefWidth="99.0" text="Appointment ID"/>
                   <TableColumn fx:id="allTitleColumn" prefWidth="51.0" text="Title"/>
