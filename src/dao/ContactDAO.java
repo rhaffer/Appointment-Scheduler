@@ -57,19 +57,47 @@ public class ContactDAO {
         try{
             statement.execute();
             ResultSet rs = statement.getResultSet();
-            if (rs.next()){
+            if (rs.next()) {
                 int contactID = rs.getInt("Contact_ID");
                 String contactName = rs.getString("Contact_Name");
                 String contactEmail = rs.getString("Email");
                 return new Contact(contactID, contactName, contactEmail);
-            }else{
+            } else {
                 return null;
             }
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             System.out.println("SQL Exception: " + ex.getMessage());
             return null;
         }
     }
+
+    /**
+     * This method retrieves all Contacts from the database
+     *
+     * @param conn The Connection object used to connect to the database
+     * @return ObservableList Contact contacts
+     */
+    public ObservableList<Contact> getAll(Connection conn) throws SQLException {
+        ObservableList<Contact> contacts = FXCollections.observableArrayList();
+        String selectStatement = "SELECT * FROM contacts";
+        DBQuery.setPreparedStatement(conn, selectStatement);
+        PreparedStatement statement = DBQuery.getPreparedStatement();
+        try {
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+            while (rs.next()) {
+                int contactID = rs.getInt("Contact_ID");
+                String contactName = rs.getString("Contact_Name");
+                String contactEmail = rs.getString("Email");
+                contacts.add(new Contact(contactID, contactName, contactEmail));
+            }
+            return contacts;
+        } catch (SQLException ex) {
+            System.out.println("SQL Exception: " + ex.getMessage());
+            return null;
+        }
+    }
+
 
     public ObservableList<ContactScheduleReport> getReport(Connection conn) throws SQLException {
         ObservableList<ContactScheduleReport> results = FXCollections.observableArrayList();

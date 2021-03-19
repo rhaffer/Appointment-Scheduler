@@ -1,5 +1,7 @@
 package dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.User;
 import util.DBQuery;
 
@@ -24,7 +26,7 @@ public class UserDAO{
         try {
             statement.execute();
             ResultSet rs = statement.getResultSet();
-            if(rs.next()){
+            if (rs.next()) {
                 int userID = rs.getInt("User_ID");
                 String userName = rs.getString("User_Name");
                 String password = rs.getString("Password");
@@ -33,7 +35,7 @@ public class UserDAO{
                 String lastUpdate = rs.getTimestamp("Last_Update").toString();
                 String lastUpdatedBy = rs.getString("Last_Updated_By");
                 return new User(userID, userName, password, createDate, createdBy, lastUpdate, lastUpdatedBy);
-            }else{
+            } else {
                 return null;
             }
         } catch (SQLException ex) {
@@ -42,20 +44,55 @@ public class UserDAO{
         }
     }
 
-    /** This method saves a User to the database.
-     @param conn The Connection object used to perform the query.
-     @param user The User object to be stored
-     @return True if insertion successful, false otherwise */
+    /**
+     * Returns a list of all available Users
+     *
+     * @param conn The Connection object used to query the database
+     * @return ObservableList User users
+     */
+    public ObservableList<User> getAll(Connection conn) throws SQLException {
+        ObservableList<User> users = FXCollections.observableArrayList();
+        String selectStatement = "SELECT * FROM users";
+        DBQuery.setPreparedStatement(conn, selectStatement);
+        PreparedStatement statement = DBQuery.getPreparedStatement();
+
+        try {
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+            while (rs.next()) {
+                int userID = rs.getInt("User_ID");
+                String userName = rs.getString("User_Name");
+                String password = rs.getString("Password");
+                String createDate = rs.getString("Create_Date");
+                String createdBy = rs.getString("Created_By");
+                String lastUpdate = rs.getTimestamp("Last_Update").toString();
+                String lastUpdatedBy = rs.getString("Last_Updated_By");
+                users.add(new User(userID, userName, password, createDate, createdBy, lastUpdate, lastUpdatedBy));
+            }
+            return users;
+        } catch (SQLException ex) {
+            System.out.println("SQL Exception: " + ex.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * This method saves a User to the database.
+     *
+     * @param conn The Connection object used to perform the query.
+     * @param user The User object to be stored
+     * @return True if insertion successful, false otherwise
+     */
     public Boolean save(Connection conn, User user) throws SQLException {
         String insertStatement = "INSERT INTO users(User_name, Password) VALUES (?, ?)";
         DBQuery.setPreparedStatement(conn, insertStatement);
         PreparedStatement statement = DBQuery.getPreparedStatement();
         statement.setString(1, user.getUserName());
         statement.setString(2, user.getPassword());
-        try{
+        try {
             statement.execute();
             return true;
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             if (ex.getErrorCode() == 1062){
                 System.out.println("Duplicate Key Error.");
             }

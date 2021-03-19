@@ -76,19 +76,44 @@ public class User {
      @param userName The new username */
     public void setUserName(String userName){ user_name = userName;}
 
-    /** Sets the password.
-     @param newPassword The password for the new user */
-    public void setPassword(String newPassword) { password = newPassword;}
+    /**
+     * Sets the password.
+     *
+     * @param newPassword The password for the new user
+     */
+    public void setPassword(String newPassword) {
+        password = newPassword;
+    }
 
-    /** Sets the date the User was created.
-     @param createDate The date the User was created */
-    public void setCreateDate(String createDate) { create_date = createDate;}
+    /**
+     * Sets the date the User was created.
+     *
+     * @param createDate The date the User was created
+     */
+    public void setCreateDate(String createDate) {
+        create_date = createDate;
+    }
 
-    /** Sets the User who created the new User.
-     @param author The author who created the User */
-    public void setCreatedBy(String author){ created_by = author;}
+    /**
+     * Sets the User who created the new User.
+     *
+     * @param author The author who created the User
+     */
+    public void setCreatedBy(String author) {
+        created_by = author;
+    }
 
-    /** Sets the date the User was last updated.
-     @param updateAuthor The author who last updated the User */
-    public void setLastUpdatedBy(String updateAuthor) { last_updated_by = updateAuthor;}
+    /**
+     * Sets the date the User was last updated.
+     *
+     * @param updateAuthor The author who last updated the User
+     */
+    public void setLastUpdatedBy(String updateAuthor) {
+        last_updated_by = updateAuthor;
+    }
+
+    @Override
+    public String toString() {
+        return user_name;
+    }
 }

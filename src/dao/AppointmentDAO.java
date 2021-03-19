@@ -6,7 +6,10 @@ import model.Appointment;
 import util.DBQuery;
 import util.TimeConverter;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -129,7 +132,6 @@ public class AppointmentDAO {
         statement.setInt(11, appointment.getContact_id());
         statement.setInt(12, appointment.getAppointment_id());
         try{
-            System.out.println(statement);
             statement.execute();
             return true;
         }catch (SQLException ex){

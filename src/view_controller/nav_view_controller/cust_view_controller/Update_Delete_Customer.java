@@ -201,8 +201,10 @@ public class Update_Delete_Customer extends BaseController {
 
     /**
      * This method handles deletion of both the Customer and any associated appointments.
-     * Lambda 1 -- filters the response made by the User
-     * Lambda 2 -- checks what the response is by the user and either deletes or cancels the operation accordingly
+     * Lambda 1 -- filters the response made by the User. This allows for a function chaining for the deleteAlert
+     * and allows for a quick response reaction from the program.
+     * Lambda 2 -- checks what the response is by the user and either deletes or cancels the operation accordingly.This
+     * allows for a function chaining for the deleteAlert and allows for a quick response reaction from the program.
      */
     @FXML
     private void deleteButtonHandler(){

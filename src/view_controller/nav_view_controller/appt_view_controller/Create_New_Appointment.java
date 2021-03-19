@@ -170,18 +170,39 @@ public class Create_New_Appointment extends BaseController {
      * weekend and then populates the available start times. */
     @FXML
     private void datePickerHandler() throws SQLException {
-        if(startComboBox.getItems() != null){
+        if (startComboBox.getItems() != null) {
             startComboBox.getItems().clear();
         }
         disableWeekends();
         populateStartTimeBox();
     }
 
-    /** This method handles the "Create Appointment" button. First this method saves the Contact information associated
+    /**
+     * This method checks to see if the potential Appointment to be created overlaps with another existing Appointment.
+     *
+     * @return True if appointments overlap, false otherwise
+     */
+    private Boolean checkOverlapping() throws SQLException {
+        boolean overlaps = false;
+        AppointmentDAO dao = new AppointmentDAO();
+        ObservableList<Appointment> appointments = dao.getAll(CONN);
+        LocalDateTime appointmentDate = LocalDateTime.of(dateDatePicker.getValue(), startComboBox.getValue());
+        for (Appointment appointment : appointments) {
+            if (appointmentDate.equals(appointment.getStart())) {
+                overlaps = true;
+                break;
+            }
+        }
+        return overlaps;
+    }
+
+    /**
+     * This method handles the "Create Appointment" button. First this method saves the Contact information associated
      * with the Appointment being created. Next, it preps the data by putting each field into it's own respective
      * variable that is then used in an Appointment constructor. Finally, it inserts the information into the
      * database and provides an alert if insertions was successful or unsuccessful. The Start and End ComboBoxes are
-     * then repopulated with new times in order to account for the new Appointment being created. */
+     * then repopulated with new times in order to account for the new Appointment being created.
+     */
     @FXML
     private void createAppointment() throws SQLException {
         //Saves Contact Information to contacts table
@@ -206,20 +227,26 @@ public class Create_New_Appointment extends BaseController {
         Appointment appt = new Appointment(title, description, location, type, startTime, endTime, create_date,
                 created_by, last_update, last_updated_by, customer_id, user_id, contact_id);
 
-        //Inserting into DB
-        AppointmentDAO dao = new AppointmentDAO();
-        if (dao.save(CONN, appt)) {
-            Alert saveAlert = new Alert(Alert.AlertType.INFORMATION);
-            saveAlert.setHeaderText("Appointment Created!");
-            saveAlert.setContentText("Appointment created successfully!");
-            saveAlert.show();
+        if (!checkOverlapping()) {
+            AppointmentDAO dao = new AppointmentDAO();
+            if (dao.save(CONN, appt)) {
+                Alert saveAlert = new Alert(Alert.AlertType.INFORMATION);
+                saveAlert.setHeaderText("Appointment Created!");
+                saveAlert.setContentText("Appointment created successfully!");
+                saveAlert.show();
+            } else {
+                Alert saveAlert = new Alert(Alert.AlertType.ERROR);
+                saveAlert.setHeaderText("Save Unsuccessful");
+                saveAlert.setContentText("Error creating appointment!");
+                saveAlert.show();
+            }
+            clearAllFields();
+            populateCustomerComboBox();
         } else {
-            Alert saveAlert = new Alert(Alert.AlertType.ERROR);
-            saveAlert.setHeaderText("Save Unsuccessful");
-            saveAlert.setContentText("Error creating appointment!");
-            saveAlert.show();
+            Alert newAlert = new Alert(Alert.AlertType.ERROR);
+            newAlert.setHeaderText("Overlapping Appointments");
+            newAlert.setContentText(appt.getTitle() + "overlaps with another appointment.");
         }
-        clearAllFields();
-        populateCustomerComboBox();
     }
+
 }

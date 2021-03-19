@@ -2,7 +2,7 @@ package view_controller.nav_view_controller.appt_view_controller;
 
 import dao.AppointmentDAO;
 import dao.ContactDAO;
-import dao.CustomerDAO;
+import dao.UserDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,7 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Appointment;
 import model.Contact;
-import model.Customer;
+import model.User;
 import view_controller.BaseController;
 
 import java.sql.SQLException;
@@ -23,11 +23,16 @@ import java.util.Locale;
  */
 public class Update_Delete_Appointment extends BaseController {
 
+    private static Appointment APPOINTMENT = null;
     private static final int APPOINTMENT_LENGTH = 30;
     private static final int BUSINESS_OPEN = 8;
     private static final int BUSINESS_CLOSED = 22;
+
     @FXML
-    ComboBox<Customer> customerComboBox;
+    ComboBox<User> userComboBox;
+
+    @FXML
+    ComboBox<Contact> contactComboBox;
 
     @FXML
     TextField appointmentIDTextField;
@@ -198,7 +203,8 @@ public class Update_Delete_Appointment extends BaseController {
      * This method clears all of the fields on the Update Appointment page.
      */
     private void clearAllFields() {
-        customerComboBox.getItems().clear();
+        userComboBox.getItems().clear();
+        contactComboBox.getItems().clear();
         appointmentIDTextField.setText(null);
         titleTextField.clear();
         descTextField.clear();
@@ -312,15 +318,21 @@ public class Update_Delete_Appointment extends BaseController {
      */
     private void setFields(TableView<Appointment> table) throws SQLException {
         Appointment appointment = table.getSelectionModel().getSelectedItem();
-        customerComboBox.getItems().clear();
-        startComboBox.getItems().clear();
-        endComboBox.getItems().clear();
+        APPOINTMENT = appointment;
+        clearAllFields();
+        populateUserComboBox();
         populateCustomerComboBox();
         populateStartTimeBox(appointment);
 
-        for (Customer customer : customerComboBox.getItems()) {
-            if (customer.getCustomerID() == appointment.getCustomer_id()) {
-                customerComboBox.setValue(customer);
+        for (User user : userComboBox.getItems()) {
+            if (user.getUserId() == appointment.getUserID()) {
+                userComboBox.setValue(user);
+            }
+        }
+
+        for (Contact contact : contactComboBox.getItems()) {
+            if (contact.getContactID() == appointment.getContact_id()) {
+                contactComboBox.setValue(contact);
             }
         }
         appointmentIDTextField.setText(String.valueOf(appointment.getAppointment_id()));
@@ -334,12 +346,21 @@ public class Update_Delete_Appointment extends BaseController {
     }
 
     /**
+     * This method populates the User ComboBox with all available Users
+     */
+    private void populateUserComboBox() throws SQLException {
+        UserDAO dao = new UserDAO();
+        ObservableList<User> users = dao.getAll(CONN);
+        userComboBox.setItems(users);
+    }
+
+    /**
      * This method populates the Customer ComboBox with all available Customers
      */
     private void populateCustomerComboBox() throws SQLException {
-        CustomerDAO dao = new CustomerDAO();
-        ObservableList<Customer> customers = dao.getAll(CONN);
-        customerComboBox.setItems(customers);
+        ContactDAO dao = new ContactDAO();
+        ObservableList<Contact> contacts = dao.getAll(CONN);
+        contactComboBox.setItems(contacts);
     }
 
     /**
@@ -441,28 +462,6 @@ public class Update_Delete_Appointment extends BaseController {
         }
     }
 
-    /**
-     * This method checks to see if a contact already exists within the database for an Appointment and then saves the
-     * new Contact if that Contact doesn't exist.
-     */
-    private void saveContact() throws SQLException {
-        ContactDAO contactDAO = new ContactDAO();
-        Contact apptContact = new Contact(customerComboBox.getValue().getCustomerName(), emailTextField.getText());
-        if (contactDAO.get(CONN, apptContact) == null) {
-            contactDAO.save(CONN, apptContact);
-        }
-    }
-
-    /**
-     * Retreives the Contact ID for the Appointment.
-     *
-     * @return The Contact ID for the Contact with the information provided from the fields in Create_New_Appointment.fxml
-     */
-    private int getContactID() throws SQLException {
-        ContactDAO contactDAO = new ContactDAO();
-        Contact apptContact = new Contact(customerComboBox.getValue().getCustomerName(), emailTextField.getText());
-        return contactDAO.get(CONN, apptContact).getContactID();
-    }
 
     /**
      * This method handles the "Update" button. It checks to see if a contact exists, and if it does, saves the Contact.
@@ -470,7 +469,6 @@ public class Update_Delete_Appointment extends BaseController {
      */
     @FXML
     private void updateButtonHandler() throws SQLException {
-        saveContact();
         // Prepping data to put into Appointment class
         String title = titleTextField.getText();
         String description = descTextField.getText();
@@ -480,9 +478,9 @@ public class Update_Delete_Appointment extends BaseController {
         LocalDateTime endTime = LocalDateTime.of(dateDatePicker.getValue(), endComboBox.getValue());
         String last_update = LocalDateTime.now().toString();
         String last_updated_by = LOGGED_IN_USER.getUserName();
-        int customer_id = customerComboBox.getValue().getCustomerID();
+        int customer_id = APPOINTMENT.getCustomer_id();
         int user_id = LOGGED_IN_USER.getUserId();
-        int contact_id = getContactID();
+        int contact_id = contactComboBox.getValue().getContactID();
 
         //Creating new Appointment
         Appointment appt = new Appointment(Integer.parseInt(appointmentIDTextField.getText()), title, description, location, type, startTime, endTime, last_update,

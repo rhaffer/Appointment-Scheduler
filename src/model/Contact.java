@@ -32,19 +32,44 @@ public class Contact {
      @return String contact_name */
     public String getContactName(){ return contact_name;}
 
-    /** Returns the Contact email.
-     @return String email */
-    public String getEmail(){ return email;}
+    /**
+     * Returns the Contact email.
+     *
+     * @return String email
+     */
+    public String getEmail() {
+        return email;
+    }
 
-    /** Sets the Contact ID.
-     @param newID The ID to set. */
-    public void setContactID(int newID){ contact_id = newID;}
+    /**
+     * Sets the Contact ID.
+     *
+     * @param newID The ID to set.
+     */
+    public void setContactID(int newID) {
+        contact_id = newID;
+    }
 
-    /** Sets the Contact name.
-     @param name The name to set. */
-    public void setContactName(String name){ contact_name = name;}
+    /**
+     * Sets the Contact name.
+     *
+     * @param name The name to set.
+     */
+    public void setContactName(String name) {
+        contact_name = name;
+    }
 
-    /** Sets the Contact email.
-     @param newEmail The email address to set. */
-    public void setEmail(String newEmail){ email = newEmail;}
+    /**
+     * Sets the Contact email.
+     *
+     * @param newEmail The email address to set.
+     */
+    public void setEmail(String newEmail) {
+        email = newEmail;
+    }
+
+    @Override
+    public String toString() {
+        return contact_name;
+    }
 }
