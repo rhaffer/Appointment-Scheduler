@@ -42,7 +42,8 @@ public class Navigation extends BaseController {
                 if (diff <= 15) {
                     Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
                     timeAlert.setHeaderText("Upcoming Appointment");
-                    timeAlert.setContentText("There is an appointment coming up in " + diff + " minutes!");
+                    timeAlert.setContentText("Appointment ID: " + appt.getAppointment_id() + " Start Time: " +
+                            appt.getStart() + " is in " + diff + " minutes!");
                     timeAlert.show();
                 }
             }

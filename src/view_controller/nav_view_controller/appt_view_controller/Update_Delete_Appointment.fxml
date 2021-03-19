@@ -20,17 +20,32 @@
             </HBox.margin>
          </ComboBox>
       </HBox>
-      <HBox prefHeight="28.0" prefWidth="200.0">
-         <Label text="Contact">
+      <HBox layoutX="10.0" layoutY="47.0" prefHeight="28.0" prefWidth="200.0">
+         <VBox.margin>
+            <Insets top="10.0"/>
+         </VBox.margin>
+         <Label text="Customer">
             <HBox.margin>
                <Insets top="5.0"/>
             </HBox.margin>
          </Label>
-         <ComboBox fx:id="contactComboBox" prefWidth="100.0">
+         <ComboBox fx:id="customerComboBox" prefWidth="100.0">
             <HBox.margin>
-               <Insets left="54.0"/>
+               <Insets left="45.0"/>
             </HBox.margin>
          </ComboBox>
+      </HBox>
+      <HBox prefHeight="28.0" prefWidth="200.0">
+         <Label text="Contact Name">
+            <HBox.margin>
+               <Insets top="5.0"/>
+            </HBox.margin>
+         </Label>
+         <TextField fx:id="contactNameTextField" prefHeight="27.0" prefWidth="100.0">
+            <HBox.margin>
+               <Insets left="20.0"/>
+            </HBox.margin>
+         </TextField>
          <VBox.margin>
             <Insets top="10.0"/>
          </VBox.margin>
@@ -176,7 +191,7 @@
       </HBox>
       <HBox prefHeight="66.0" prefWidth="201.0">
          <VBox.margin>
-            <Insets top="30.0"/>
+            <Insets top="25.0"/>
          </VBox.margin>
          <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateButtonHandler" prefHeight="27.0"
                  prefWidth="65.0" text="Update"/>
@@ -190,8 +205,8 @@
    </VBox>
    <TabPane layoutX="221.0" layoutY="36.0" prefHeight="410.0" prefWidth="415.0" tabClosingPolicy="UNAVAILABLE">
       <Tab fx:id="weekViewTab" onSelectionChanged="#populateWeekTableView" text="Week View">
-         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <TableView fx:id="weekTableView" layoutY="1.0" onMouseClicked="#populateFieldsWeekView" prefHeight="376.0"
+         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="409.0" prefWidth="415.0">
+            <TableView fx:id="weekTableView" layoutY="1.0" onMouseClicked="#populateFieldsWeekView" prefHeight="381.0"
                        prefWidth="415.0">
                <columns>
                   <TableColumn fx:id="weekAppointmentColumn" prefWidth="99.0" text="Appointment ID"/>

@@ -1,0 +1,51 @@
+user attempted to login at 2021-03-19T14:47:49.807917
+Login Successful
+
+user attempted to login at 2021-03-19T14:51:50.496100
+Login Successful
+
+user attempted to login at 2021-03-19T14:53:54.194042
+Login Successful
+
+user attempted to login at 2021-03-19T14:54:30.904077
+Login Successful
+
+user attempted to login at 2021-03-19T15:00:24.123529
+Login Successful
+
+user attempted to login at 2021-03-19T15:02:19.076586
+Login Successful
+
+user attempted to login at 2021-03-19T15:26:17.452449
+Login Successful
+
+user attempted to login at 2021-03-19T15:28:45.380878
+Login Successful
+
+user attempted to login at 2021-03-19T15:45:31.862258
+Login Successful
+
+user attempted to login at 2021-03-19T15:46:58.226271
+Login Successful
+
+user attempted to login at 2021-03-19T15:48:21.777642
+Login Successful
+
+user attempted to login at 2021-03-19T15:49:53.617876
+Login Successful
+
+user attempted to login at 2021-03-19T15:50:55.710197
+Login Successful
+
+user attempted to login at 2021-03-19T15:52:52.882027
+Login Successful
+
+user attempted to login at 2021-03-19T16:06:15.245274
+Login Successful
+
+user attempted to login at 2021-03-19T16:08:13.174477
+Login Successful
+
+user attempted to login at 2021-03-19T16:09:19.741377
+Login Successful
+

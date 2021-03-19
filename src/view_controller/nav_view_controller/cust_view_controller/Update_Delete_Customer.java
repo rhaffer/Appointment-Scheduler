@@ -185,12 +185,20 @@ public class Update_Delete_Customer extends BaseController {
     @FXML
     private void updateCustomer() throws SQLException{
         CustomerDAO dao = new CustomerDAO();
-        if(dao.update(CONN, customerComboBox.getValue(), custFLDCB.getValue(), LOGGED_IN_USER)){
+        Customer newCustomer = new Customer();
+        newCustomer.setCustomerID(customerComboBox.getValue().getCustomerID());
+        newCustomer.setCustomerName(custNameTF.getText());
+        newCustomer.setPhoneNumber(custPhoneTF.getText());
+        newCustomer.setPostalCode(custPostalTF.getText());
+        newCustomer.setAddress(custAddressTF.getText());
+        newCustomer.setDivisionID(custFLDCB.getValue().getDivisionID());
+
+        if (dao.update(CONN, newCustomer, custFLDCB.getValue(), LOGGED_IN_USER)) {
             Alert newAlert = new Alert(Alert.AlertType.INFORMATION);
             newAlert.setHeaderText("Customer Updated");
             newAlert.setContentText("Customer updated successfully");
             newAlert.show();
-        }else{
+        } else {
             Alert newAlert = new Alert(Alert.AlertType.ERROR);
             newAlert.setHeaderText("Customer Not Updated");
             newAlert.setContentText("Customer not updated!");

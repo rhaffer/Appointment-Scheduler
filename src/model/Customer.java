@@ -77,59 +77,133 @@ public class Customer {
 
     /** Returns the Customer postal code.
      @return String postalCode */
-    public String getPostalCode() { return postalCode; }
+    public String getPostalCode() {
+        return postalCode;
+    }
 
-    /** Returns the Customer phone number.
-     @return String phoneNumber */
-    public String getPhoneNumber() { return phoneNumber; }
+    /**
+     * Returns the Customer phone number.
+     *
+     * @return String phoneNumber
+     */
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-    /** Returns the Customer created date.
-     @return String createDate */
-    public String getCreateDate() { return createDate; }
+    /**
+     * Returns the Customer created date.
+     *
+     * @return String createDate
+     */
+    public String getCreateDate() {
+        return createDate;
+    }
 
-    /** Returns the User who created the Customer.
-     @return String createdBy */
-    public String getCreatedBy() { return createdBy; }
+    /**
+     * Returns the User who created the Customer.
+     *
+     * @return String createdBy
+     */
+    public String getCreatedBy() {
+        return createdBy;
+    }
 
-    /** Returns the last time the Customer was updated.
-     @return String lastUpdate */
-    public String getLastUpdate() { return lastUpdate; }
+    /**
+     * Returns the last time the Customer was updated.
+     *
+     * @return String lastUpdate
+     */
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
 
-    /** Returns the User who last updated the Customer.
-     @return String lastUpdatedBy */
-    public String getLastUpdatedBy() { return lastUpdatedBy; }
+    /**
+     * Returns the User who last updated the Customer.
+     *
+     * @return String lastUpdatedBy
+     */
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
+    }
 
-    /** Returns the FirstLevelDivision ID that correlates to the Customer.
-     @return int divisionID */
-    public int getDivisionID() { return divisionID; }
+    /**
+     * Returns the FirstLevelDivision ID that correlates to the Customer.
+     *
+     * @return int divisionID
+     */
+    public int getDivisionID() {
+        return divisionID;
+    }
 
-    /** Sets the Customer name.
-     @param name The name to be inserted */
-    public void setCustomerName(String name) { customerName = name; }
+    /**
+     * Sets the Customer ID
+     */
+    public void setCustomerID(int ID) {
+        customerID = ID;
+    }
 
-    /** Sets the Customer address.
-     @param new_address The address to be inserted. */
-    public void setAddress(String new_address) { address = new_address; }
+    /**
+     * Sets the Customer name.
+     *
+     * @param name The name to be inserted
+     */
+    public void setCustomerName(String name) {
+        customerName = name;
+    }
 
-    /** Sets the Customer postal code
-     @param postal_code The postal code to be inserted */
-    public void setPostalCode(String postal_code) { postalCode = postal_code; }
+    /**
+     * Sets the Customer address.
+     *
+     * @param new_address The address to be inserted.
+     */
+    public void setAddress(String new_address) {
+        address = new_address;
+    }
 
-    /** Sets the Customer phone number.
-     @param phone_number The phone number to be inserted*/
-    public void setPhoneNumber(String phone_number) { phoneNumber = phone_number; }
+    /**
+     * Sets the Customer postal code
+     *
+     * @param postal_code The postal code to be inserted
+     */
+    public void setPostalCode(String postal_code) {
+        postalCode = postal_code;
+    }
 
-    /** Sets the date the Customer was created.
-     @param create_date The date the customer was created to be inserted */
-    public void setCreateDate(String create_date) { createDate = create_date; }
+    /**
+     * Sets the Customer phone number.
+     *
+     * @param phone_number The phone number to be inserted
+     */
+    public void setPhoneNumber(String phone_number) {
+        phoneNumber = phone_number;
+    }
 
-    /** Sets the User who created the Customer.
-     @param created_by The User to be inserted */
-    public void setCreatedBy(String created_by) { createdBy = created_by; }
+    /**
+     * Sets the date the Customer was created.
+     *
+     * @param create_date The date the customer was created to be inserted
+     */
+    public void setCreateDate(String create_date) {
+        createDate = create_date;
+    }
 
-    /** Sets the User who last updated the Customer.
-     @param last_updated_by The last User to update the Customer */
-    public void setLastUpdatedBy(String last_updated_by) { lastUpdatedBy = last_updated_by; }
+    /**
+     * Sets the User who created the Customer.
+     *
+     * @param created_by The User to be inserted
+     */
+    public void setCreatedBy(String created_by) {
+        createdBy = created_by;
+    }
+
+    /**
+     * Sets the User who last updated the Customer.
+     *
+     * @param last_updated_by The last User to update the Customer
+     */
+    public void setLastUpdatedBy(String last_updated_by) {
+        lastUpdatedBy = last_updated_by;
+    }
 
     /** Sets the FirstLevelDivision ID for the Customer.
      @param division_id The FirstLevelDivision ID to be inserted */

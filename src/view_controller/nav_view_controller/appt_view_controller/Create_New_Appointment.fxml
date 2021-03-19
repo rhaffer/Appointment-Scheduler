@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0"
-            prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="530.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1"
             fx:controller="view_controller.nav_view_controller.appt_view_controller.Create_New_Appointment">
-   <VBox layoutX="234.0" layoutY="38.0" prefHeight="455.0" prefWidth="201.0">
-      <HBox prefHeight="28.0" prefWidth="200.0">
+   <VBox layoutX="220.0" layoutY="14.0" prefHeight="455.0" prefWidth="201.0">
+      <HBox layoutX="10.0" layoutY="10.0" prefHeight="28.0" prefWidth="200.0">
+         <Label text="User">
+            <HBox.margin>
+               <Insets top="5.0"/>
+            </HBox.margin>
+         </Label>
+         <ComboBox fx:id="userComboBox" prefWidth="100.0">
+            <HBox.margin>
+               <Insets left="67.0"/>
+            </HBox.margin>
+         </ComboBox>
+      </HBox>
+      <HBox layoutX="10.0" layoutY="10.0" prefHeight="28.0" prefWidth="200.0">
+         <VBox.margin>
+            <Insets top="10.0"/>
+         </VBox.margin>
          <Label text="Customer">
             <HBox.margin>
                <Insets top="5.0"/>
@@ -23,9 +31,24 @@
          </Label>
          <ComboBox fx:id="customerComboBox" prefWidth="100.0">
             <HBox.margin>
-               <Insets left="44.0"/>
+               <Insets left="40.0"/>
             </HBox.margin>
          </ComboBox>
+      </HBox>
+      <HBox prefHeight="28.0" prefWidth="200.0">
+         <Label text="Contact Name">
+            <HBox.margin>
+               <Insets top="5.0"/>
+            </HBox.margin>
+         </Label>
+         <TextField fx:id="contactNameTextField" prefWidth="100.0">
+            <HBox.margin>
+               <Insets left="16.0"/>
+            </HBox.margin>
+         </TextField>
+         <VBox.margin>
+            <Insets top="10.0"/>
+         </VBox.margin>
       </HBox>
       <HBox prefHeight="28.0" prefWidth="200.0">
          <VBox.margin>
@@ -36,8 +59,8 @@
                <Insets top="5.0"/>
             </HBox.margin>
          </Label>
-         <TextField fx:id="appointmentIDTextField" disable="true" editable="false" prefHeight="27.0"
-                    prefWidth="100.0" promptText="Auto Generated">
+         <TextField fx:id="appointmentIDTextField" disable="true" editable="false" prefHeight="27.0" prefWidth="100.0"
+                    promptText="Auto Generated">
             <HBox.margin>
                <Insets left="10.0"/>
             </HBox.margin>
@@ -166,8 +189,7 @@
             </HBox.margin>
          </ComboBox>
       </HBox>
-      <Button fx:id="createApptButton" mnemonicParsing="false" onAction="#createAppointment"
-              text="Create Appointment">
+      <Button fx:id="createApptButton" mnemonicParsing="false" onAction="#createAppointment" text="Create Appointment">
          <VBox.margin>
             <Insets left="40.0" top="45.0"/>
          </VBox.margin>

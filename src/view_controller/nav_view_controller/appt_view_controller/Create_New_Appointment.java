@@ -3,19 +3,23 @@ package view_controller.nav_view_controller.appt_view_controller;
 import dao.AppointmentDAO;
 import dao.ContactDAO;
 import dao.CustomerDAO;
+import dao.UserDAO;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Appointment;
 import model.Contact;
 import model.Customer;
+import model.User;
 import view_controller.BaseController;
 
 import java.sql.SQLException;
 import java.time.*;
 
-/** This class acts as the handler for the Create_New_Appointment FXML. This controller handles the interface for
- * creating new appointments. */
+/**
+ * This class acts as the handler for the Create_New_Appointment FXML. This controller handles the interface for
+ * creating new appointments.
+ */
 public class Create_New_Appointment extends BaseController {
     int APPOINTMENT_LENGTH = 30;
     //Business hours are 8AM to 10PM EST
@@ -23,7 +27,13 @@ public class Create_New_Appointment extends BaseController {
     int BUSINESS_CLOSED = 22;
 
     @FXML
+    ComboBox<User> userComboBox;
+
+    @FXML
     ComboBox<Customer> customerComboBox;
+
+    @FXML
+    TextField contactNameTextField;
 
     @FXML
     TextField appointmentIDTextField;
@@ -55,14 +65,21 @@ public class Create_New_Appointment extends BaseController {
     @FXML
     Button createApptButton;
 
-    /** This method populates the Customer ComboBox upon initialization. */
+    /**
+     * This method populates the Customer ComboBox upon initialization.
+     */
     @FXML
-    private void initialize() throws SQLException { populateCustomerComboBox(); }
+    private void initialize() throws SQLException {
+        populateCustomerComboBox();
+        populateUserComboBox();
+    }
 
     /**
      * This method clears all of the JavaFX Gui fields for the Create Appointment page.
      */
-    private void clearAllFields(){
+    private void clearAllFields() {
+        userComboBox.getItems().clear();
+        contactNameTextField.clear();
         customerComboBox.getItems().clear();
         titleTextField.clear();
         descTextField.clear();
@@ -74,15 +91,28 @@ public class Create_New_Appointment extends BaseController {
         endComboBox.getItems().clear();
     }
 
-    /** This method creates the Customer DAO in order to populate the Customer ComboBox. */
+    /**
+     * This method populates the User ComboBox
+     */
+    private void populateUserComboBox() throws SQLException {
+        UserDAO dao = new UserDAO();
+        ObservableList<User> users = dao.getAll(CONN);
+        userComboBox.setItems(users);
+    }
+
+    /**
+     * This method creates the Customer DAO in order to populate the Customer ComboBox.
+     */
     private void populateCustomerComboBox() throws SQLException {
         CustomerDAO dao = new CustomerDAO();
         ObservableList<Customer> customers = dao.getAll(CONN);
         customerComboBox.setItems(customers);
     }
 
-    /** This method populates the Start time ComboBox. If a Start time is already in the database it is excluded from the
-     * ComboBox. */
+    /**
+     * This method populates the Start time ComboBox. If a Start time is already in the database it is excluded from the
+     * ComboBox.
+     */
     private void populateStartTimeBox() throws SQLException {
         AppointmentDAO dao = new AppointmentDAO();
         ObservableList<LocalDateTime> startTimes = dao.getStartTimes(CONN);
@@ -136,28 +166,35 @@ public class Create_New_Appointment extends BaseController {
 
     }
 
-    /** This method checks to see if a contact already exists within the database for an Appointment and then saves the
-     * new Contact if that Contact doesn't exist. */
+    /**
+     * This method checks to see if a contact already exists within the database for an Appointment and then saves the
+     * new Contact if that Contact doesn't exist.
+     */
     private void saveContact() throws SQLException {
         ContactDAO contactDAO = new ContactDAO();
-        Contact apptContact = new Contact(customerComboBox.getValue().getCustomerName(), emailTextField.getText());
-        if (contactDAO.get(CONN, apptContact) == null){
+        Contact apptContact = new Contact(contactNameTextField.getText(), emailTextField.getText());
+        if (contactDAO.get(CONN, apptContact) == null) {
             contactDAO.save(CONN, apptContact);
         }
     }
 
-    /** Retreives the Contact ID for the Appointment.
-     * @return The Contact ID for the Contact with the information provided from the fields in Create_New_Appointment.fxml */
-    private int getContactID() throws SQLException{
+    /**
+     * Retreives the Contact ID for the Appointment.
+     *
+     * @return The Contact ID for the Contact with the information provided from the fields in Create_New_Appointment.fxml
+     */
+    private int getContactID() throws SQLException {
         ContactDAO contactDAO = new ContactDAO();
-        Contact apptContact = new Contact(customerComboBox.getValue().getCustomerName(), emailTextField.getText());
+        Contact apptContact = new Contact(contactNameTextField.getText(), emailTextField.getText());
         return contactDAO.get(CONN, apptContact).getContactID();
     }
 
-    /** This function disables weekends from being selected on the DateTimePicker. */
-    private void disableWeekends(){
-        if((dateDatePicker.getValue().getDayOfWeek().equals(DayOfWeek.SUNDAY)
-                || dateDatePicker.getValue().getDayOfWeek().equals(DayOfWeek.SATURDAY))){
+    /**
+     * This function disables weekends from being selected on the DateTimePicker.
+     */
+    private void disableWeekends() {
+        if ((dateDatePicker.getValue().getDayOfWeek().equals(DayOfWeek.SUNDAY)
+                || dateDatePicker.getValue().getDayOfWeek().equals(DayOfWeek.SATURDAY))) {
             dateDatePicker.getEditor().clear();
             Alert newAlert = new Alert(Alert.AlertType.ERROR);
             newAlert.setHeaderText("Cannot schedule on Weekends");
@@ -186,9 +223,11 @@ public class Create_New_Appointment extends BaseController {
         boolean overlaps = false;
         AppointmentDAO dao = new AppointmentDAO();
         ObservableList<Appointment> appointments = dao.getAll(CONN);
-        LocalDateTime appointmentDate = LocalDateTime.of(dateDatePicker.getValue(), startComboBox.getValue());
+        LocalDateTime appointmentStartDateTime = LocalDateTime.of(dateDatePicker.getValue(), startComboBox.getValue());
+        LocalDateTime appointmentEndDatetime = LocalDateTime.of(dateDatePicker.getValue(), endComboBox.getValue());
         for (Appointment appointment : appointments) {
-            if (appointmentDate.equals(appointment.getStart())) {
+            if (appointmentStartDateTime.isBefore(appointment.getEnd()) &&
+                    appointment.getStart().isBefore(appointmentEndDatetime)) {
                 overlaps = true;
                 break;
             }
@@ -220,7 +259,7 @@ public class Create_New_Appointment extends BaseController {
         String last_update = LocalDateTime.now().toString();
         String last_updated_by = LOGGED_IN_USER.getUserName();
         int customer_id = customerComboBox.getValue().getCustomerID();
-        int user_id = LOGGED_IN_USER.getUserId();
+        int user_id = userComboBox.getValue().getUserId();
         int contact_id = getContactID();
 
         //Creating new Appointment
@@ -241,11 +280,13 @@ public class Create_New_Appointment extends BaseController {
                 saveAlert.show();
             }
             clearAllFields();
+            populateUserComboBox();
             populateCustomerComboBox();
         } else {
             Alert newAlert = new Alert(Alert.AlertType.ERROR);
             newAlert.setHeaderText("Overlapping Appointments");
-            newAlert.setContentText(appt.getTitle() + "overlaps with another appointment.");
+            newAlert.setContentText(appt.getTitle() + " overlaps with another appointment.");
+            newAlert.show();
         }
     }
 

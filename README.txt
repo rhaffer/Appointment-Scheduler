@@ -75,6 +75,8 @@ user to select that day.
 Overlapping appointments are impossible to create due to how the Start and End ComboBoxes are generated. If a start time
 is in the database, it is omitted from being selected as a Start time for a newly created or updated appointment.
 If a user inserts an incorrect username or password on the Login screen, a error message is displayed.
+
+A check is present to consider for overlapping appointments. See Create_new_appointment.java line 185.
 --------------------------------
 
 A3e:

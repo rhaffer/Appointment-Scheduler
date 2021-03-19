@@ -72,6 +72,36 @@ public class ContactDAO {
     }
 
     /**
+     * This method retrieves a Contact from the database by Contact Name
+     *
+     * @param conn         The Connection object used to connect to the database
+     * @param contact_name The Contact_Name to retrieve a Contact from the database
+     * @return A Contact object if one exists with the Contact Name, null otherwise
+     */
+    public Contact get(Connection conn, String contact_name, String email) throws SQLException {
+        String selectStatement = "SELECT * FROM contacts WHERE Contact_Name = ? AND Email = ?";
+        DBQuery.setPreparedStatement(conn, selectStatement);
+        PreparedStatement statement = DBQuery.getPreparedStatement();
+        statement.setString(1, contact_name);
+        statement.setString(2, email);
+        try {
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+            if (rs.next()) {
+                int contactID = rs.getInt("Contact_ID");
+                String contactName = rs.getString("Contact_Name");
+                String contactEmail = rs.getString("Email");
+                return new Contact(contactID, contactName, contactEmail);
+            } else {
+                return null;
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQL Exception: " + ex.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * This method retrieves all Contacts from the database
      *
      * @param conn The Connection object used to connect to the database

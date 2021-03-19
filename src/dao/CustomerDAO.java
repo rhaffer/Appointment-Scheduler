@@ -83,7 +83,7 @@ public class CustomerDAO {
     public Boolean update(Connection conn, Customer customer, FirstLevelDivision division, User user) throws SQLException {
         String updateStatement = "UPDATE " +
                 "customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update = ?, " +
-                "Last_Updated_By = ?, Division_ID = ?" +
+                "Last_Updated_By = ?, Division_ID = ? " +
                 "WHERE customer_ID = ?";
         DBQuery.setPreparedStatement(conn, updateStatement);
         PreparedStatement statement = DBQuery.getPreparedStatement();
@@ -93,7 +93,7 @@ public class CustomerDAO {
         statement.setString(4, customer.getPhoneNumber());
         statement.setString(5, LocalDateTime.now().toString());
         statement.setString(6, user.getUserName());
-        statement.setString(7, String.valueOf(division.getDivisionID()));
+        statement.setInt(7, division.getDivisionID());
         statement.setInt(8, customer.getCustomerID());
         try{
             statement.execute();

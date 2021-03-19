@@ -2,6 +2,7 @@ package view_controller.nav_view_controller.appt_view_controller;
 
 import dao.AppointmentDAO;
 import dao.ContactDAO;
+import dao.CustomerDAO;
 import dao.UserDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Appointment;
 import model.Contact;
+import model.Customer;
 import model.User;
 import view_controller.BaseController;
 
@@ -23,7 +25,6 @@ import java.util.Locale;
  */
 public class Update_Delete_Appointment extends BaseController {
 
-    private static Appointment APPOINTMENT = null;
     private static final int APPOINTMENT_LENGTH = 30;
     private static final int BUSINESS_OPEN = 8;
     private static final int BUSINESS_CLOSED = 22;
@@ -32,7 +33,10 @@ public class Update_Delete_Appointment extends BaseController {
     ComboBox<User> userComboBox;
 
     @FXML
-    ComboBox<Contact> contactComboBox;
+    ComboBox<Customer> customerComboBox;
+
+    @FXML
+    TextField contactNameTextField;
 
     @FXML
     TextField appointmentIDTextField;
@@ -204,7 +208,8 @@ public class Update_Delete_Appointment extends BaseController {
      */
     private void clearAllFields() {
         userComboBox.getItems().clear();
-        contactComboBox.getItems().clear();
+        contactNameTextField.clear();
+        customerComboBox.getItems().clear();
         appointmentIDTextField.setText(null);
         titleTextField.clear();
         descTextField.clear();
@@ -317,8 +322,8 @@ public class Update_Delete_Appointment extends BaseController {
      * @param table The table that the selection is made from
      */
     private void setFields(TableView<Appointment> table) throws SQLException {
+        ContactDAO dao = new ContactDAO();
         Appointment appointment = table.getSelectionModel().getSelectedItem();
-        APPOINTMENT = appointment;
         clearAllFields();
         populateUserComboBox();
         populateCustomerComboBox();
@@ -330,9 +335,12 @@ public class Update_Delete_Appointment extends BaseController {
             }
         }
 
-        for (Contact contact : contactComboBox.getItems()) {
-            if (contact.getContactID() == appointment.getContact_id()) {
-                contactComboBox.setValue(contact);
+        Contact contact = dao.get(CONN, appointment.getContact_id());
+        contactNameTextField.setText(contact.getContactName());
+
+        for (Customer customer : customerComboBox.getItems()) {
+            if (customer.getCustomerID() == appointment.getCustomer_id()) {
+                customerComboBox.setValue(customer);
             }
         }
         appointmentIDTextField.setText(String.valueOf(appointment.getAppointment_id()));
@@ -358,9 +366,9 @@ public class Update_Delete_Appointment extends BaseController {
      * This method populates the Customer ComboBox with all available Customers
      */
     private void populateCustomerComboBox() throws SQLException {
-        ContactDAO dao = new ContactDAO();
-        ObservableList<Contact> contacts = dao.getAll(CONN);
-        contactComboBox.setItems(contacts);
+        CustomerDAO dao = new CustomerDAO();
+        ObservableList<Customer> customers = dao.getAll(CONN);
+        customerComboBox.setItems(customers);
     }
 
     /**
@@ -438,12 +446,46 @@ public class Update_Delete_Appointment extends BaseController {
     }
 
     /**
+     * This method checks to see if a contact already exists within the database for an Appointment and then saves the
+     * new Contact if that Contact doesn't exist.
+     */
+    private void saveContact() throws SQLException {
+        ContactDAO contactDAO = new ContactDAO();
+        Contact apptContact = new Contact(contactNameTextField.getText(), emailTextField.getText());
+        if (contactDAO.get(CONN, apptContact) == null) {
+            contactDAO.save(CONN, apptContact);
+        }
+    }
+
+    /**
+     * This method checks to see if the potential Appointment to be created overlaps with another existing Appointment.
+     *
+     * @return True if appointments overlap, false otherwise
+     */
+    private Boolean checkOverlapping() throws SQLException {
+        boolean overlaps = false;
+        AppointmentDAO dao = new AppointmentDAO();
+        ObservableList<Appointment> appointments = dao.getAll(CONN);
+        LocalDateTime appointmentStartDateTime = LocalDateTime.of(dateDatePicker.getValue(), startComboBox.getValue());
+        LocalDateTime appointmentEndDatetime = LocalDateTime.of(dateDatePicker.getValue(), endComboBox.getValue());
+        for (Appointment appointment : appointments) {
+            if (appointmentStartDateTime.isBefore(appointment.getEnd()) &&
+                    appointment.getStart().isBefore(appointmentEndDatetime)) {
+                overlaps = true;
+                break;
+            }
+        }
+        return overlaps;
+    }
+
+    /**
      * This method handles the Delete button. If an Appointment is successfully deleted, then an alert is raised.
      * After deletion, all fields and tables are reset.
      */
     @FXML
     private void deleteButtonHandler() throws SQLException {
         AppointmentDAO dao = new AppointmentDAO();
+
         if (dao.delete(CONN, Integer.parseInt(appointmentIDTextField.getText()))) {
             Alert newAlert = new Alert(Alert.AlertType.INFORMATION);
             newAlert.setHeaderText("Appointment Deleted");
@@ -469,6 +511,9 @@ public class Update_Delete_Appointment extends BaseController {
      */
     @FXML
     private void updateButtonHandler() throws SQLException {
+        saveContact();
+        ContactDAO contactDAO = new ContactDAO();
+        Contact contact = contactDAO.get(CONN, contactNameTextField.getText(), emailTextField.getText());
         // Prepping data to put into Appointment class
         String title = titleTextField.getText();
         String description = descTextField.getText();
@@ -478,29 +523,36 @@ public class Update_Delete_Appointment extends BaseController {
         LocalDateTime endTime = LocalDateTime.of(dateDatePicker.getValue(), endComboBox.getValue());
         String last_update = LocalDateTime.now().toString();
         String last_updated_by = LOGGED_IN_USER.getUserName();
-        int customer_id = APPOINTMENT.getCustomer_id();
-        int user_id = LOGGED_IN_USER.getUserId();
-        int contact_id = contactComboBox.getValue().getContactID();
+        int customer_id = customerComboBox.getValue().getCustomerID();
+        int user_id = userComboBox.getValue().getUserId();
+        int contact_id = contact.getContactID();
 
         //Creating new Appointment
         Appointment appt = new Appointment(Integer.parseInt(appointmentIDTextField.getText()), title, description, location, type, startTime, endTime, last_update,
                 last_updated_by, customer_id, user_id, contact_id);
 
-        AppointmentDAO dao = new AppointmentDAO();
-        if (dao.update(CONN, appt)) {
-            Alert saveAlert = new Alert(Alert.AlertType.INFORMATION);
-            saveAlert.setHeaderText("Appointment Updated!");
-            saveAlert.setContentText("Appointment updated successfully!");
-            saveAlert.show();
-            populateAllTableView();
-            populateMonthTableView();
-            populateWeekTableView();
-            clearAllFields();
+        if (!checkOverlapping()) {
+            AppointmentDAO dao = new AppointmentDAO();
+            if (dao.update(CONN, appt)) {
+                Alert saveAlert = new Alert(Alert.AlertType.INFORMATION);
+                saveAlert.setHeaderText("Appointment Updated!");
+                saveAlert.setContentText("Appointment updated successfully!");
+                saveAlert.show();
+                populateAllTableView();
+                populateMonthTableView();
+                populateWeekTableView();
+                clearAllFields();
+            } else {
+                Alert saveAlert = new Alert(Alert.AlertType.ERROR);
+                saveAlert.setHeaderText("Update Unsuccessful");
+                saveAlert.setContentText("Error updating appointment!");
+                saveAlert.show();
+            }
         } else {
-            Alert saveAlert = new Alert(Alert.AlertType.ERROR);
-            saveAlert.setHeaderText("Update Unsuccessful");
-            saveAlert.setContentText("Error updating appointment!");
-            saveAlert.show();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Appointments overlap!");
+            alert.setContentText("Error updating appointments. One or more appointments overlap.");
+            alert.show();
         }
     }
 }
