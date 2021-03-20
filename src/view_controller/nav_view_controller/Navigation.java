@@ -39,8 +39,8 @@ public class Navigation extends BaseController {
         for (Appointment appt : appointments){
             if (appt.getStart().isAfter(currentTime)) {
                 long diff = Math.abs(ChronoUnit.MINUTES.between(currentTime, appt.getStart()));
+                Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
                 if (diff <= 15) {
-                    Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
                     timeAlert.setHeaderText("Upcoming Appointment");
                     timeAlert.setContentText("Appointment ID: " + appt.getAppointment_id() + " Start Time: " +
                             appt.getStart() + " is in " + diff + " minutes!");

@@ -41,11 +41,11 @@
                <Insets top="5.0"/>
             </HBox.margin>
          </Label>
-         <TextField fx:id="contactNameTextField" prefHeight="27.0" prefWidth="100.0">
+         <ComboBox fx:id="contactNameComboBox" prefWidth="100.0">
             <HBox.margin>
                <Insets left="20.0"/>
             </HBox.margin>
-         </TextField>
+         </ComboBox>
          <VBox.margin>
             <Insets top="10.0"/>
          </VBox.margin>

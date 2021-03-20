@@ -36,7 +36,7 @@ public class Update_Delete_Appointment extends BaseController {
     ComboBox<Customer> customerComboBox;
 
     @FXML
-    TextField contactNameTextField;
+    ComboBox<Contact> contactNameComboBox;
 
     @FXML
     TextField appointmentIDTextField;
@@ -208,7 +208,7 @@ public class Update_Delete_Appointment extends BaseController {
      */
     private void clearAllFields() {
         userComboBox.getItems().clear();
-        contactNameTextField.clear();
+        contactNameComboBox.getItems().clear();
         customerComboBox.getItems().clear();
         appointmentIDTextField.setText(null);
         titleTextField.clear();
@@ -322,10 +322,10 @@ public class Update_Delete_Appointment extends BaseController {
      * @param table The table that the selection is made from
      */
     private void setFields(TableView<Appointment> table) throws SQLException {
-        ContactDAO dao = new ContactDAO();
         Appointment appointment = table.getSelectionModel().getSelectedItem();
         clearAllFields();
         populateUserComboBox();
+        populateContactComboBox();
         populateCustomerComboBox();
         populateStartTimeBox(appointment);
 
@@ -335,8 +335,11 @@ public class Update_Delete_Appointment extends BaseController {
             }
         }
 
-        Contact contact = dao.get(CONN, appointment.getContact_id());
-        contactNameTextField.setText(contact.getContactName());
+        for (Contact contact : contactNameComboBox.getItems()) {
+            if (contact.getContactID() == appointment.getContact_id()) {
+                contactNameComboBox.setValue(contact);
+            }
+        }
 
         for (Customer customer : customerComboBox.getItems()) {
             if (customer.getCustomerID() == appointment.getCustomer_id()) {
@@ -351,6 +354,15 @@ public class Update_Delete_Appointment extends BaseController {
         apptTypeTextField.setText(appointment.getType());
         dateDatePicker.setValue(appointment.getStart().toLocalDate());
         endComboBox.setValue(appointment.getEnd().toLocalTime());
+    }
+
+    /**
+     * This method populates the Contact ComboBox with all available Contacts
+     */
+    private void populateContactComboBox() throws SQLException {
+        ContactDAO dao = new ContactDAO();
+        ObservableList<Contact> contacts = dao.getAll(CONN);
+        contactNameComboBox.setItems(contacts);
     }
 
     /**
@@ -451,7 +463,7 @@ public class Update_Delete_Appointment extends BaseController {
      */
     private void saveContact() throws SQLException {
         ContactDAO contactDAO = new ContactDAO();
-        Contact apptContact = new Contact(contactNameTextField.getText(), emailTextField.getText());
+        Contact apptContact = new Contact(contactNameComboBox.getValue().getContactName(), emailTextField.getText());
         if (contactDAO.get(CONN, apptContact) == null) {
             contactDAO.save(CONN, apptContact);
         }
@@ -460,20 +472,25 @@ public class Update_Delete_Appointment extends BaseController {
     /**
      * This method checks to see if the potential Appointment to be created overlaps with another existing Appointment.
      *
+     * @param curAppt The appointment that is currently being updated. This ensures that a false overlapping flag
+     *                doesn't occur.
      * @return True if appointments overlap, false otherwise
      */
-    private Boolean checkOverlapping() throws SQLException {
+    private Boolean checkOverlapping(Appointment curAppt) throws SQLException {
         boolean overlaps = false;
         AppointmentDAO dao = new AppointmentDAO();
         ObservableList<Appointment> appointments = dao.getAll(CONN);
         LocalDateTime appointmentStartDateTime = LocalDateTime.of(dateDatePicker.getValue(), startComboBox.getValue());
         LocalDateTime appointmentEndDatetime = LocalDateTime.of(dateDatePicker.getValue(), endComboBox.getValue());
         for (Appointment appointment : appointments) {
-            if (appointmentStartDateTime.isBefore(appointment.getEnd()) &&
-                    appointment.getStart().isBefore(appointmentEndDatetime)) {
-                overlaps = true;
-                break;
+            if (!(appointment.getAppointment_id() == curAppt.getAppointment_id())) {
+                if (appointmentStartDateTime.isBefore(appointment.getEnd()) &&
+                        appointment.getStart().isBefore(appointmentEndDatetime)) {
+                    overlaps = true;
+                    break;
+                }
             }
+
         }
         return overlaps;
     }
@@ -513,7 +530,7 @@ public class Update_Delete_Appointment extends BaseController {
     private void updateButtonHandler() throws SQLException {
         saveContact();
         ContactDAO contactDAO = new ContactDAO();
-        Contact contact = contactDAO.get(CONN, contactNameTextField.getText(), emailTextField.getText());
+        Contact contact = contactDAO.get(CONN, contactNameComboBox.getValue().getContactName(), emailTextField.getText());
         // Prepping data to put into Appointment class
         String title = titleTextField.getText();
         String description = descTextField.getText();
@@ -531,7 +548,7 @@ public class Update_Delete_Appointment extends BaseController {
         Appointment appt = new Appointment(Integer.parseInt(appointmentIDTextField.getText()), title, description, location, type, startTime, endTime, last_update,
                 last_updated_by, customer_id, user_id, contact_id);
 
-        if (!checkOverlapping()) {
+        if (!checkOverlapping(appt)) {
             AppointmentDAO dao = new AppointmentDAO();
             if (dao.update(CONN, appt)) {
                 Alert saveAlert = new Alert(Alert.AlertType.INFORMATION);
