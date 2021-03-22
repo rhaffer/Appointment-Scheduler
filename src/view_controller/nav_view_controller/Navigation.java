@@ -36,18 +36,19 @@ public class Navigation extends BaseController {
         LocalDateTime currentTime = LocalDateTime.now();
         AppointmentDAO dao = new AppointmentDAO();
         ObservableList<Appointment> appointments = dao.getAll(CONN);
+        Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
+        timeAlert.setHeaderText("Upcoming Appointment");
+        timeAlert.setContentText("No upcoming appointments!");
         for (Appointment appt : appointments){
             if (appt.getStart().isAfter(currentTime)) {
                 long diff = Math.abs(ChronoUnit.MINUTES.between(currentTime, appt.getStart()));
-                Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
                 if (diff <= 15) {
-                    timeAlert.setHeaderText("Upcoming Appointment");
                     timeAlert.setContentText("Appointment ID: " + appt.getAppointment_id() + " Start Time: " +
                             appt.getStart() + " is in " + diff + " minutes!");
-                    timeAlert.show();
                 }
             }
         }
+        timeAlert.show();
     }
 
     /** Upon logging in and the Navigation controller loading, the check appointments method will be called. */
