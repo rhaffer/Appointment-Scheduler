@@ -4,7 +4,7 @@ FirstLevelDivisions, Customers, Contacts, and Appointments are saved within a da
 quickly and accurately schedule and retrieve appointment information.
 *******************************
 Author: Rick Haffer
-Contact: rhaffer@wgu.edu
+Contact: rickhaffer1992@gmail.com
 Student ID: 001375723
 Application Version: 1.0
 IDE Version: IntelliJ IDEA 2020.3.2
